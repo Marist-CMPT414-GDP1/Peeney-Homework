@@ -7,15 +7,19 @@
 
 using namespace sf;
 
+const int NUM_SPRITES = 9; //number of sprites in the ring
+Sprite sprites[NUM_SPRITES];
+
+//Offset to space the sprites apart
+//Multiplicative constant to angleRadianIncrease
+const int SPRITE_OFFSET = 40;
+
 int main()
 {
 	//Set up variables
 	int centerX = 250;
 	int centerY = 250;
 	int radius = 100;
-
-	int spriteX = centerX + radius;
-	int spriteY = centerY + radius;
 
 	double angle = 0;
 	double angleRadianIncrease = 0.0174533;
@@ -27,8 +31,12 @@ int main()
 	//Set up the bee sprite
 	Texture textureBee;
 	textureBee.loadFromFile("bee.png");
-	Sprite spriteBee;
-	spriteBee.setTexture(textureBee);
+	
+
+	for (int i = 0; i < NUM_SPRITES; i++) {
+		sprites[i].setTexture(textureBee);
+		sprites[i].setOrigin(30, 20);
+	}
 
 	Clock clock;
 	float timeInterval = 5; //in milliseconds
@@ -46,13 +54,20 @@ int main()
 			clock.restart();
 		}
 
-		int spriteX = centerX + radius * cos(angle);
-		int spriteY = centerY + radius * sin(angle);
-
-		spriteBee.setPosition(spriteX, spriteY);
+		for (int i = 0; i < NUM_SPRITES; i++) 
+		{
+			sprites[i].setPosition(
+				centerX + radius * cos(angle - angleRadianIncrease * SPRITE_OFFSET * i),
+					centerY + radius * sin(angle - angleRadianIncrease * SPRITE_OFFSET * i)
+					);
+		}
 
 		window.clear();
-		window.draw(spriteBee);
+
+		for (int i = 0; i < NUM_SPRITES; i++) {
+			window.draw(sprites[i]);
+		}
+
 		window.display();
 	}
 }
