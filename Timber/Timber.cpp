@@ -1,6 +1,7 @@
 //Include important libraries here
 #include <sstream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 //Make code easier to type with "using namespace"
 using namespace sf;
@@ -203,6 +204,25 @@ int main()
 	//Control the player input
 	bool acceptInput = false;
 
+	//Prepare the sounds
+	//chop.wav
+	SoundBuffer chopBuffer;
+	chopBuffer.loadFromFile("sound/chop.wav");
+	Sound chop;
+	chop.setBuffer(chopBuffer);
+
+	//death.wav
+	SoundBuffer deathBuffer;
+	deathBuffer.loadFromFile("sound/death.wav");
+	Sound death;
+	death.setBuffer(deathBuffer);
+
+	//out_of_time.wav
+	SoundBuffer ootBuffer;
+	ootBuffer.loadFromFile("sound/out_of_time.wav");
+	Sound outOfTime;
+	outOfTime.setBuffer(ootBuffer);
+
 	while (window.isOpen())
 	{
 	
@@ -211,6 +231,20 @@ int main()
 		HANDLE THE PLAYER'S INPUT
 		*************************
 		*/
+
+		Event event;
+
+		while (window.pollEvent(event))
+		{
+			if (event.type == Event::KeyReleased && !paused)
+			{
+				//Listen for key presses again
+				acceptInput = true;
+
+				//Hide the axe
+				spriteAxe.setPosition(2000, spriteAxe.getPosition().y);
+			}
+		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
 		{
@@ -266,6 +300,9 @@ int main()
 				logActive = true;
 
 				acceptInput = false;
+
+				//Chop sound
+				chop.play();
 			}
 
 			if (Keyboard::isKeyPressed(Keyboard::Left))
@@ -289,6 +326,9 @@ int main()
 				logActive = true;
 
 				acceptInput = false;
+
+				//Chop sound
+				chop.play();
 			}
 		}
 
@@ -326,6 +366,9 @@ int main()
 				);
 
 				messageText.setPosition(1920 / 2.0f, 1080 / 2.0f);
+
+				//Out of time sound
+				outOfTime.play();
 			}
 
 			//Setup the bee
@@ -465,6 +508,53 @@ int main()
 					//Hide the branch
 					branches[i].setPosition(3000, height);
 				}
+			}
+
+			//Handle a flying log
+			if (logActive) 
+			{
+				spriteLog.setPosition(
+					spriteLog.getPosition().x + (logSpeedX * dt.asSeconds()),
+					spriteLog.getPosition().y + (logSpeedY * dt.asSeconds())
+				);
+
+				//Has the log reached an edge of the screen?
+				if (spriteLog.getPosition().x < -100 || spriteLog.getPosition().x > 2000)
+				{
+					//Set it up to be a whole new log next frame
+					logActive = false;
+					spriteLog.setPosition(810, 720);
+				}
+			}
+
+			//Has the player been squished by a branch?
+			if (branchPositions[5] == playerSide)
+			{
+				//death
+				paused = true;
+				acceptInput = false;
+
+				//Draw the gravestone
+				spriteRIP.setPosition(525, 760);
+
+				//Hide the player
+				spritePlayer.setPosition(2000, 660);
+
+				//Change the text of the message
+				messageText.setString("SQUISHED!");
+
+				//Center it on the screen
+				FloatRect textRect = messageText.getLocalBounds();
+
+				messageText.setOrigin(
+					textRect.left + textRect.width / 2.0f,
+					textRect.top + textRect.height / 2.0f
+				);
+
+				messageText.setPosition(1920 / 2.0f, 1080 / 2.0f);
+
+				//Death sound
+				death.play();
 			}
 
 		} //End if(!paused)
