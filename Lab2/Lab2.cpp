@@ -14,6 +14,8 @@ Sprite sprites[NUM_SPRITES];
 //Multiplicative constant to angleRadianIncrease
 const int SPRITE_OFFSET = 40;
 
+enum class dir {CW, CCW};
+
 int main()
 {
 	//Set up variables
@@ -23,6 +25,11 @@ int main()
 
 	double angle = 0;
 	double angleRadianIncrease = 0.0174533;
+
+	dir direction = dir::CW;
+	bool reverse = false;
+
+	bool acceptInput = true;
 
 	//Set up the window
 	VideoMode vm(500, 500);
@@ -43,9 +50,44 @@ int main()
 
 	while (window.isOpen())
 	{
+
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
 		{
 			window.close();
+		}
+
+		Event event;
+
+		while (window.pollEvent(event))
+		{
+			if (event.type == Event::KeyReleased)
+			{
+				//Listen for key presses again
+				acceptInput = true;
+
+			}
+		}
+
+		if (acceptInput && Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			reverse = true;
+			acceptInput = false;
+		}
+
+		if (reverse == true) 
+		{
+			angleRadianIncrease = angleRadianIncrease * (-1);
+
+			if (direction == dir::CW)
+			{
+				direction = dir::CCW;
+			}
+			else
+			{
+				direction = dir::CW;
+			}
+			
+			reverse = false;
 		}
 
 		if (clock.getElapsedTime().asMilliseconds() >= timeInterval)
