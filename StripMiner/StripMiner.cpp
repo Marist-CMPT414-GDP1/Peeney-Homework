@@ -12,7 +12,7 @@ using namespace sf;
 //Function prototypes
 void updateSpiders();
 
-const int NUM_SPIDERS = 8;
+const int NUM_SPIDERS = 9;
 Sprite spiders[NUM_SPIDERS];
 
 Sprite strips[3];
@@ -43,9 +43,9 @@ int main()
 	for (int i = 0; i < 3; i++) {
 		strips[i].setTexture(textureStrip);
 	}
-	strips[0].setPosition(400, 150);
-	strips[1].setPosition(400, 450);
-	strips[2].setPosition(400, 750);
+	strips[0].setPosition(0, 150);
+	strips[1].setPosition(0, 450);
+	strips[2].setPosition(0, 750);
 
 	//Prepare 8 spiders
 	Texture textureSpider;
@@ -158,10 +158,10 @@ int main()
 
 	//Prepare the player
 	Texture texturePlayer;
-	texturePlayer.loadFromFile("graphics/player.png");
+	texturePlayer.loadFromFile("graphics/steve_side.png");
 	Sprite spritePlayer;
 	spritePlayer.setTexture(texturePlayer);
-	spritePlayer.setPosition(580, 720);
+	spritePlayer.setPosition(1650, 750);
 
 	//The player starts on the left
 	strip playerstrip = strip::TOP;
@@ -175,22 +175,22 @@ int main()
 
 	//Prepare the axe
 	Texture textureAxe;
-	textureAxe.loadFromFile("graphics/axe.png");
+	textureAxe.loadFromFile("graphics/pickaxe.png");
 	Sprite spriteAxe;
 	spriteAxe.setTexture(textureAxe);
 	spriteAxe.setPosition(700, 830);
 
 	//Line the axe up with the tree
-	const float AXE_POSITION_TOP = 150;
-	const float AXE_POSITION_CENTER = 350;
-	const float AXE_POSITION_BOTTOM = 750;
+	const float AXE_POSITION_TOP = 205;
+	const float AXE_POSITION_CENTER = 505;
+	const float AXE_POSITION_BOTTOM = 805;
 
 	//Prepare the flying log
 	Texture textureLog;
-	textureLog.loadFromFile("graphics/log.png");
+	textureLog.loadFromFile("graphics/cobblestone.png");
 	Sprite spriteLog;
 	spriteLog.setTexture(textureLog);
-	spriteLog.setPosition(810, 720);
+	spriteLog.setPosition(1600, 750);
 
 	//Some other useful log related variables
 	bool logActive = false;
@@ -266,7 +266,7 @@ int main()
 			spriteRIP.setPosition(675, 2000);
 
 			//Move the player into position
-			spritePlayer.setPosition(580, 720);
+			spritePlayer.setPosition(1650, 750);
 
 			acceptInput = true;
 
@@ -282,22 +282,22 @@ int main()
 				if (Keyboard::isKeyPressed(Keyboard::O))
 				{
 					playerstrip = strip::TOP;
-					spritePlayer.setPosition(0, 150);
-					spriteAxe.setPosition(spriteAxe.getPosition().x, AXE_POSITION_TOP);
+					spritePlayer.setPosition(1650, 150);
+					spriteAxe.setPosition(1600, AXE_POSITION_TOP);
 				}
 
 				else if (Keyboard::isKeyPressed(Keyboard::K))
 				{
 					playerstrip = strip::CENTER;
-					spritePlayer.setPosition(0, 350);
-					spriteAxe.setPosition(spriteAxe.getPosition().x, AXE_POSITION_CENTER);
+					spritePlayer.setPosition(1650, 450);
+					spriteAxe.setPosition(1600, AXE_POSITION_CENTER);
 				}
 
 				else if (Keyboard::isKeyPressed(Keyboard::M))
 				{
 					playerstrip = strip::BOTTOM;
-					spritePlayer.setPosition(0, 750);
-					spriteAxe.setPosition(spriteAxe.getPosition().x, AXE_POSITION_BOTTOM);
+					spritePlayer.setPosition(1650, 750);
+					spriteAxe.setPosition(1600, AXE_POSITION_BOTTOM);
 				}
 				
 				score++;
@@ -309,7 +309,7 @@ int main()
 				updateSpiders();
 
 				//Set the log flying to the left
-				spriteLog.setPosition(810, 720);
+				spriteLog.setPosition(1600, 720);
 				logSpeedX = -5000;
 				logActive = true;
 
@@ -477,15 +477,15 @@ int main()
 				float spiderX = i * 200;
 				if (spiderPositions[i] == strip::TOP)
 				{
-					spiders[i].setPosition(spiderX, 150);
+					spiders[i].setPosition(spiderX, 250);
 				}
 				else if (spiderPositions[i] == strip::CENTER)
 				{
-					spiders[i].setPosition(spiderX, 450);
+					spiders[i].setPosition(spiderX, 550);
 				}
 				else if (spiderPositions[i] == strip::BOTTOM)
 				{
-					spiders[i].setPosition(spiderX, 750);
+					spiders[i].setPosition(spiderX, 850);
 				}
 				else
 				{
@@ -507,12 +507,12 @@ int main()
 				{
 					//Set it up to be a whole new log next frame
 					logActive = false;
-					spriteLog.setPosition(810, 720);
+					spriteLog.setPosition(2000, 720);
 				}
 			}
 
-			//Has the player been squished by a branch?
-			if (spiderPositions[5] == playerstrip)
+			//Has the player been bitten by a spider?
+			if (spiderPositions[NUM_SPIDERS - 1] == playerstrip)
 			{
 				//death
 				paused = true;
@@ -525,7 +525,7 @@ int main()
 				spritePlayer.setPosition(2000, 660);
 
 				//Change the text of the message
-				messageText.setString("SQUISHED!");
+				messageText.setString("BITTEN!");
 
 				//Center it on the screen
 				FloatRect textRect = messageText.getLocalBounds();
