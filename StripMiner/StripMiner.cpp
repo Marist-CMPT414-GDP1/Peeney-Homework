@@ -1,34 +1,26 @@
-//Right now the player dies when there's a spider around the center on the same strip.
-
-
-//Include important libraries here
 #include <sstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-//Make code easier to type with "using namespace"
 using namespace sf;
 
 //Function prototypes
 void updateSpiders();
 
+//Prepare spiders
 const int NUM_SPIDERS = 9;
 Sprite spiders[NUM_SPIDERS];
 
+//Prepare stone strips
 Sprite strips[3];
-
-//Where is the player/spiders?
 enum class strip { TOP, CENTER, BOTTOM, NONE };
 strip spiderPositions[NUM_SPIDERS];
 
 int main()
 {
-	//Create a video mode object
 	VideoMode vm(1920, 1080);
-
-	//Create and open a window for the game
 	RenderWindow window(vm, "Strip Miner", Style::Default);
-	//Changed this to Default temporarily bc Fullscreen is acting strangely
+	//Need to figure out how to adapt resolution
 
 	Texture textureBackground;
 	textureBackground.loadFromFile("graphics/mc_bg.jpg");
@@ -47,11 +39,11 @@ int main()
 	strips[1].setPosition(0, 450);
 	strips[2].setPosition(0, 750);
 
-	//Prepare 8 spiders
+	//Prepare spiders
 	Texture textureSpider;
 	textureSpider.loadFromFile("graphics/spider.png");
 
-	//Set the texture for each branch sprite
+	//Set the texture for each spider
 	for (int i = 0; i < NUM_SPIDERS; i++) {
 		spiders[i].setTexture(textureSpider);
 		spiders[i].setPosition(-2000, -2000);
@@ -64,38 +56,28 @@ int main()
 	Sprite spriteBee;
 	spriteBee.setTexture(textureBee);
 	spriteBee.setPosition(0, 800);
-
-	//Is the bee currently moving?
 	bool beeActive = false;
-
-	//How fast can the bee fly
 	float beeSpeed = 0.0f;
 
-	//Make 3 cloud sprites from 1 texture
+	//Prepare clouds - need to change this graphic and use an array instead
 	Texture textureCloud;
-
-	//Load 1 new texture
 	textureCloud.loadFromFile("graphics/cloud.png");
-
-	//3 new sprites from with the same texture
 	Sprite spriteCloud1;
 	Sprite spriteCloud2;
 	Sprite spriteCloud3;
+
 	spriteCloud1.setTexture(textureCloud);
 	spriteCloud2.setTexture(textureCloud);
 	spriteCloud3.setTexture(textureCloud);
 
-	//Position the clouds on the left of the screen at diff heights
 	spriteCloud1.setPosition(0, 0);
 	spriteCloud2.setPosition(0, 250);
 	spriteCloud3.setPosition(0, 500);
 
-	//Are the clouds currently on screen?
 	bool cloud1Active = false;
 	bool cloud2Active = false;
 	bool cloud3Active = false;
 
-	//How fast is each cloud?
 	float cloud1Speed = 0.0f;
 	float cloud2Speed = 0.0f;
 	float cloud3Speed = 0.0f;
@@ -103,7 +85,6 @@ int main()
 	//Variables to control time itself
 	Clock clock;
 
-	//Time bar
 	RectangleShape timeBar;
 	float timeBarStartWidth = 400;
 	float timeBarHeight = 80;
@@ -115,10 +96,9 @@ int main()
 	float timeRemaining = 4.0f;
 	float timeBarWidthPerSecond = timeBarStartWidth / timeRemaining;
 
-	//Track whether the game is running
 	bool paused = true;
 
-	//Draw some text
+	//Prepare text
 	int score = 0;
 
 	Text messageText;
@@ -127,20 +107,15 @@ int main()
 	//Choose a font
 	Font font;
 	font.loadFromFile("fonts/Minecraft.ttf");
-
-	//Apply the font to our message
 	messageText.setFont(font);
 	scoreText.setFont(font);
 
-	//Assign the actual message
+
 	messageText.setString("Press Enter to start!");
 	scoreText.setString("Score = 0");
-
-	//Make it really big
 	messageText.setCharacterSize(75);
 	scoreText.setCharacterSize(100);
 
-	//Choose a color
 	messageText.setFillColor(Color::White);
 	scoreText.setFillColor(Color::White);
 
@@ -163,10 +138,10 @@ int main()
 	spritePlayer.setTexture(texturePlayer);
 	spritePlayer.setPosition(1650, 750);
 
-	//The player starts on the left
-	strip playerstrip = strip::TOP;
+	//The player starts at the bottom
+	strip playerstrip = strip::BOTTOM;
 
-	//Prepare the gravestone
+	//Prepare the death graphic
 	Texture textureRIP;
 	textureRIP.loadFromFile("graphics/rip.png");
 	Sprite spriteRIP;
@@ -180,22 +155,22 @@ int main()
 	spriteAxe.setTexture(textureAxe);
 	spriteAxe.setPosition(2000, 0);
 
-	//Line the axe up with the tree
+	//Line the axe up with the stone strips
 	const float AXE_POSITION_TOP = 205;
 	const float AXE_POSITION_CENTER = 505;
 	const float AXE_POSITION_BOTTOM = 805;
 
-	//Prepare the flying log
-	Texture textureLog;
-	textureLog.loadFromFile("graphics/cobblestone.png");
-	Sprite spriteLog;
-	spriteLog.setTexture(textureLog);
-	spriteLog.setPosition(2000, 0);
+	//Prepare the flying cobblestone
+	Texture textureCobble;
+	textureCobble.loadFromFile("graphics/cobblestone.png");
+	Sprite spriteCobble;
+	spriteCobble.setTexture(textureCobble);
+	spriteCobble.setPosition(2000, 0);
 
-	//Some other useful log related variables
-	bool logActive = false;
-	float logSpeedX = 1000;
-	float logSpeedY = -1500;
+	//Some other useful cobble related variables
+	bool cobbleActive = false;
+	float cobbleSpeedX = 1000;
+	float cobbleSpeedY = -1500;
 
 	//Control the player input
 	bool acceptInput = false;
@@ -244,7 +219,7 @@ int main()
 				acceptInput = true;
 
 				//Hide the axe
-				spriteAxe.setPosition(2000, spriteAxe.getPosition().y);
+				spriteAxe.setPosition(2000, 0);
 			}
 		}
 
@@ -290,7 +265,7 @@ int main()
 					playerstrip = strip::TOP;
 					spritePlayer.setPosition(1650, 150);
 					spriteAxe.setPosition(1600, AXE_POSITION_TOP);
-					spriteLog.setPosition(1500, 180);
+					spriteCobble.setPosition(1500, 180);
 				}
 
 				else if (Keyboard::isKeyPressed(Keyboard::K))
@@ -298,7 +273,7 @@ int main()
 					playerstrip = strip::CENTER;
 					spritePlayer.setPosition(1650, 450);
 					spriteAxe.setPosition(1600, AXE_POSITION_CENTER);
-					spriteLog.setPosition(1500, 480);
+					spriteCobble.setPosition(1500, 480);
 				}
 
 				else if (Keyboard::isKeyPressed(Keyboard::M))
@@ -306,7 +281,7 @@ int main()
 					playerstrip = strip::BOTTOM;
 					spritePlayer.setPosition(1650, 750);
 					spriteAxe.setPosition(1600, AXE_POSITION_BOTTOM);
-					spriteLog.setPosition(1500, 780);
+					spriteCobble.setPosition(1500, 780);
 				}
 				
 				score++;
@@ -317,13 +292,13 @@ int main()
 				//Update the spiders
 				updateSpiders();
 
-				//Set the log flying
-				logSpeedX = 2500;
-				logActive = true;
+				//Set the cobble flying
+				cobbleSpeedX = 2500;
+				cobbleActive = true;
 
 				acceptInput = false;
 
-				//Chop sound
+				//Breaking stone sound
 
 				int r = (rand() % 2);
 				if (r == 0)
@@ -507,20 +482,20 @@ int main()
 				}
 			}
 
-			//Handle a flying log
-			if (logActive)
+			//Handle a flying cobble
+			if (cobbleActive)
 			{
-				spriteLog.setPosition(
-					spriteLog.getPosition().x + (logSpeedX * dt.asSeconds()),
-					spriteLog.getPosition().y + (logSpeedY * dt.asSeconds())
+				spriteCobble.setPosition(
+					spriteCobble.getPosition().x + (cobbleSpeedX * dt.asSeconds()),
+					spriteCobble.getPosition().y + (cobbleSpeedY * dt.asSeconds())
 				);
 
-				//Has the log reached an edge of the screen?
-				if (spriteLog.getPosition().x < -100 || spriteLog.getPosition().x > 2000)
+				//Has the cobble reached an edge of the screen?
+				if (spriteCobble.getPosition().x < -100 || spriteCobble.getPosition().x > 2000)
 				{
-					//Set it up to be a whole new log next frame
-					logActive = false;
-					spriteLog.setPosition(2000, 720);
+					//Set it up to be a whole new cobble next frame
+					cobbleActive = false;
+					spriteCobble.setPosition(2000, 720);
 				}
 			}
 
@@ -541,7 +516,7 @@ int main()
 				spriteAxe.setPosition(2000, 0);
 
 				//Hide the cobble
-				spriteLog.setPosition(2000, 0);
+				spriteCobble.setPosition(2000, 0);
 
 				//Change the text of the message
 				messageText.setString("BITTEN!");
@@ -568,9 +543,6 @@ int main()
 		**************
 		*/
 
-		//Clear everything from the last frame
-			//Clearing and then drawing is called "double buffering"
-			//This prevents a graphical glitch called "tearing"
 		window.clear();
 
 		//Draw our game scene here
@@ -598,8 +570,8 @@ int main()
 		//Draw the axe
 		window.draw(spriteAxe);
 
-		//Draw the flying log
-		window.draw(spriteLog);
+		//Draw the flying cobble
+		window.draw(spriteCobble);
 
 		//Draw the gravestone
 		window.draw(spriteRIP);
@@ -634,7 +606,7 @@ void updateSpiders()
 		spiderPositions[j] = spiderPositions[j - 1];
 	}
 
-	//Spawn a new branch at position 0
+	//Spawn a new spider at position 0
 	int r = (rand() % 5);
 
 	switch (r) {
