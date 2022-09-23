@@ -22,6 +22,9 @@ int main()
 	RenderWindow window(vm, "Strip Miner", Style::Default);
 	//Need to figure out how to adapt resolution
 
+	//Seed the randomizer only once
+	srand((int)time(0));
+
 	Texture textureBackground;
 	textureBackground.loadFromFile("graphics/mc_bg.jpg");
 	Sprite spriteBackground;
@@ -55,9 +58,10 @@ int main()
 	textureBat.loadFromFile("graphics/bat.png");
 	Sprite spriteBat;
 	spriteBat.setTexture(textureBat);
-	spriteBat.setPosition(0, 800);
+	spriteBat.setPosition(-100, 0);
 	bool batActive = false;
-	float batSpeed = 0.0f;
+	float batXSpeed = 0.0f;
+	float batYSpeed = 0.0f;
 
 	//Prepare droplet, which can have 1 of 2 textures
 	Texture textureDroplet1;
@@ -341,32 +345,36 @@ int main()
 			if (!batActive)
 			{
 				//How fast is the bat
-				srand((int)time(0));
-				batSpeed = (rand() % 200) + 200;
+				batXSpeed = (rand() % 200) + 200;
+				batYSpeed = (rand() % 100) + 100;
+				float r = (rand() % 2);
+				if (r == 0)
+					batYSpeed = batYSpeed * (-1);
 
 				//How high is the bat
-				float height = (rand() % 500) + 500;
-				spriteBat.setPosition(2000, height);
+				float height = (rand() % 500) + 300;
+				spriteBat.setPosition(-100, height);
 				batActive = true;
 			}
 			else
 				//Move the bat
 			{
 				spriteBat.setPosition(
-					spriteBat.getPosition().x - (batSpeed * dt.asSeconds()),
-					spriteBat.getPosition().y
+					spriteBat.getPosition().x + (batXSpeed * dt.asSeconds()),
+					spriteBat.getPosition().y + (batYSpeed * dt.asSeconds())
 				);
 
-				//Has the bat reached the left edge of the screen?
-				if (spriteBat.getPosition().x < -100)
+				//Has the bat reached an edge of the screen?
+				if (spriteBat.getPosition().x > 2020 
+					|| spriteBat.getPosition().y < -100
+					|| spriteBat.getPosition().y > 1090)
 				{
 					//Set it up ready to be a whole new bat next frame
 					batActive = false;
 				}
 			}
 
-			//Manage the droplets
-			//Cloud 1
+			//Manage the droplet
 			if (!dropletActive)
 			{
 				//Pick a texture
