@@ -50,37 +50,27 @@ int main()
 		spiders[i].setOrigin(100, 78);
 	}
 
-	//Prepare the bee
-	Texture textureBee;
-	textureBee.loadFromFile("graphics/bee.png");
-	Sprite spriteBee;
-	spriteBee.setTexture(textureBee);
-	spriteBee.setPosition(0, 800);
-	bool beeActive = false;
-	float beeSpeed = 0.0f;
+	//Prepare the bat
+	Texture textureBat;
+	textureBat.loadFromFile("graphics/bat.png");
+	Sprite spriteBat;
+	spriteBat.setTexture(textureBat);
+	spriteBat.setPosition(0, 800);
+	bool batActive = false;
+	float batSpeed = 0.0f;
 
-	//Prepare clouds - need to change this graphic and use an array instead
-	Texture textureCloud;
-	textureCloud.loadFromFile("graphics/cloud.png");
-	Sprite spriteCloud1;
-	Sprite spriteCloud2;
-	Sprite spriteCloud3;
+	//Prepare droplet, which can have 1 of 2 textures
+	Texture textureDroplet1;
+	textureDroplet1.loadFromFile("graphics/droplet1.png");
+	Texture textureDroplet2;
+	textureDroplet2.loadFromFile("graphics/droplet2.png");
 
-	spriteCloud1.setTexture(textureCloud);
-	spriteCloud2.setTexture(textureCloud);
-	spriteCloud3.setTexture(textureCloud);
+	Sprite spriteDroplet;
 
-	spriteCloud1.setPosition(0, 0);
-	spriteCloud2.setPosition(0, 250);
-	spriteCloud3.setPosition(0, 500);
+	spriteDroplet.setTexture(textureDroplet1);
+	spriteDroplet.setPosition(1920 / 2, 2000);
 
-	bool cloud1Active = false;
-	bool cloud2Active = false;
-	bool cloud3Active = false;
-
-	float cloud1Speed = 0.0f;
-	float cloud2Speed = 0.0f;
-	float cloud3Speed = 0.0f;
+	bool dropletActive = false;
 
 	//Variables to control time itself
 	Clock clock;
@@ -347,110 +337,63 @@ int main()
 				outOfTime.play();
 			}
 
-			//Setup the bee
-			if (!beeActive)
+			//Setup the bat
+			if (!batActive)
 			{
-				//How fast is the bee
+				//How fast is the bat
 				srand((int)time(0));
-				beeSpeed = (rand() % 200) + 200;
+				batSpeed = (rand() % 200) + 200;
 
-				//How high is the bee
+				//How high is the bat
 				float height = (rand() % 500) + 500;
-				spriteBee.setPosition(2000, height);
-				beeActive = true;
+				spriteBat.setPosition(2000, height);
+				batActive = true;
 			}
 			else
-				//Move the bee
+				//Move the bat
 			{
-				spriteBee.setPosition(
-					spriteBee.getPosition().x - (beeSpeed * dt.asSeconds()),
-					spriteBee.getPosition().y
+				spriteBat.setPosition(
+					spriteBat.getPosition().x - (batSpeed * dt.asSeconds()),
+					spriteBat.getPosition().y
 				);
 
-				//Has the bee reached the left edge of the screen?
-				if (spriteBee.getPosition().x < -100)
+				//Has the bat reached the left edge of the screen?
+				if (spriteBat.getPosition().x < -100)
 				{
-					//Set it up ready to be a whole new bee next frame
-					beeActive = false;
+					//Set it up ready to be a whole new bat next frame
+					batActive = false;
 				}
 			}
 
-			//Manage the clouds
+			//Manage the droplets
 			//Cloud 1
-			if (!cloud1Active)
+			if (!dropletActive)
 			{
-				//How fast is the cloud
-				cloud1Speed = (rand() % 200);
+				//Pick a texture
+				float r = (rand() % 2);
+				if (r == 0)
+					spriteDroplet.setTexture(textureDroplet1);
+				else
+					spriteDroplet.setTexture(textureDroplet2);
 
-				//How high is the cloud
-				float height = (rand() % 150);
-				spriteCloud1.setPosition(-200, height);
-				cloud1Active = true;
+				//From where does the droplet fall
+				float dropletX = (rand() % 1920);
+				spriteDroplet.setPosition(dropletX, -50);
+				dropletActive = true;
 			}
 			else
 			{
-				spriteCloud1.setPosition(
-					spriteCloud1.getPosition().x + (cloud1Speed * dt.asSeconds()),
-					spriteCloud1.getPosition().y
+				spriteDroplet.setPosition(
+					spriteDroplet.getPosition().x,
+					spriteDroplet.getPosition().y + (1050 * dt.asSeconds())
 				);
 
-				//Has the cloud reached the right edge of the screen?
-				if (spriteCloud1.getPosition().x > 1920)
+				//Has the droplet reached the bottom of the screen?
+				if (spriteDroplet.getPosition().y > 4000)
+					//extra distance to travel so the droplet appears less often
 				{
-					//Set it up to be a whole new cloud next frame
-					cloud1Active = false;
-				}
-			}
-
-			//Cloud 2
-			if (!cloud2Active)
-			{
-				//How fast is the cloud
-				cloud2Speed = (rand() % 200);
-
-				//How high is the cloud
-				float height = (rand() % 150);
-				spriteCloud2.setPosition(-200, height);
-				cloud2Active = true;
-			}
-			else
-			{
-				spriteCloud2.setPosition(
-					spriteCloud2.getPosition().x + (cloud2Speed * dt.asSeconds()),
-					spriteCloud2.getPosition().y
-				);
-
-				//Has the cloud reached the right edge of the screen?
-				if (spriteCloud2.getPosition().x > 1920)
-				{
-					//Set it up to be a whole new cloud next frame
-					cloud2Active = false;
-				}
-			}
-
-			//Cloud 3
-			if (!cloud3Active)
-			{
-				//How fast is the cloud
-				cloud3Speed = (rand() % 200);
-
-				//How high is the cloud
-				float height = (rand() % 150);
-				spriteCloud3.setPosition(-200, height);
-				cloud3Active = true;
-			}
-			else
-			{
-				spriteCloud3.setPosition(
-					spriteCloud3.getPosition().x + (cloud3Speed * dt.asSeconds()),
-					spriteCloud3.getPosition().y
-				);
-
-				//Has the cloud reached the right edge of the screen?
-				if (spriteCloud3.getPosition().x > 1920)
-				{
-					//Set it up to be a whole new cloud next frame
-					cloud3Active = false;
+					//Set it up to be a whole new droplet next frame
+					dropletActive = false;
 				}
 			}
 
@@ -548,11 +491,7 @@ int main()
 		//Draw our game scene here
 		window.draw(spriteBackground);
 
-		//Draw the clouds
-		window.draw(spriteCloud1);
-		window.draw(spriteCloud2);
-		window.draw(spriteCloud3);
-
+		//Draw the stone strips
 		for (int i = 0; i < 3; i++)
 		{
 			window.draw(strips[i]);
@@ -576,8 +515,11 @@ int main()
 		//Draw the gravestone
 		window.draw(spriteRIP);
 
-		//Draw the bee
-		window.draw(spriteBee);
+		//Draw the droplet
+		window.draw(spriteDroplet);
+
+		//Draw the bat
+		window.draw(spriteBat);
 
 		//Draw the score
 		window.draw(scoreText);
