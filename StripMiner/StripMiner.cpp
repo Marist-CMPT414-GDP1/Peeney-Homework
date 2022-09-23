@@ -112,7 +112,7 @@ int main()
 	timeBar.setPosition((1920 / 2) - timeBarStartWidth / 2, 980);
 
 	Time gameTimeTotal;
-	float timeRemaining = 6.0f;
+	float timeRemaining = 4.0f;
 	float timeBarWidthPerSecond = timeBarStartWidth / timeRemaining;
 
 	//Track whether the game is running
@@ -171,14 +171,14 @@ int main()
 	textureRIP.loadFromFile("graphics/rip.png");
 	Sprite spriteRIP;
 	spriteRIP.setTexture(textureRIP);
-	spriteRIP.setPosition(600, 860);
+	spriteRIP.setPosition(2000, 0);
 
 	//Prepare the axe
 	Texture textureAxe;
 	textureAxe.loadFromFile("graphics/pickaxe.png");
 	Sprite spriteAxe;
 	spriteAxe.setTexture(textureAxe);
-	spriteAxe.setPosition(700, 830);
+	spriteAxe.setPosition(2000, 0);
 
 	//Line the axe up with the tree
 	const float AXE_POSITION_TOP = 205;
@@ -190,7 +190,7 @@ int main()
 	textureLog.loadFromFile("graphics/cobblestone.png");
 	Sprite spriteLog;
 	spriteLog.setTexture(textureLog);
-	spriteLog.setPosition(1600, 750);
+	spriteLog.setPosition(2000, 0);
 
 	//Some other useful log related variables
 	bool logActive = false;
@@ -201,11 +201,17 @@ int main()
 	bool acceptInput = false;
 
 	//Prepare the sounds
-	//chop.wav
-	SoundBuffer chopBuffer;
-	chopBuffer.loadFromFile("sound/chop.wav");
-	Sound chop;
-	chop.setBuffer(chopBuffer);
+	//break1.wav
+	SoundBuffer break1Buffer;
+	break1Buffer.loadFromFile("sound/break1.wav");
+	Sound break1;
+	break1.setBuffer(break1Buffer);
+
+	//break2.wav
+	SoundBuffer break2Buffer;
+	break2Buffer.loadFromFile("sound/break2.wav");
+	Sound break2;
+	break2.setBuffer(break2Buffer);
 
 	//death.wav
 	SoundBuffer deathBuffer;
@@ -254,7 +260,7 @@ int main()
 
 			//Reset the time and score
 			score = 0;
-			timeRemaining = 6;
+			timeRemaining = 4;
 
 			//Make all spiders disappear, starting in the second position
 			for (int i = 1; i < NUM_SPIDERS; i++)
@@ -263,7 +269,7 @@ int main()
 			}
 
 			//Make sure the gravestone is hidden
-			spriteRIP.setPosition(675, 2000);
+			spriteRIP.setPosition(2000, 0);
 
 			//Move the player into position
 			spritePlayer.setPosition(1650, 750);
@@ -284,6 +290,7 @@ int main()
 					playerstrip = strip::TOP;
 					spritePlayer.setPosition(1650, 150);
 					spriteAxe.setPosition(1600, AXE_POSITION_TOP);
+					spriteLog.setPosition(1500, 180);
 				}
 
 				else if (Keyboard::isKeyPressed(Keyboard::K))
@@ -291,6 +298,7 @@ int main()
 					playerstrip = strip::CENTER;
 					spritePlayer.setPosition(1650, 450);
 					spriteAxe.setPosition(1600, AXE_POSITION_CENTER);
+					spriteLog.setPosition(1500, 480);
 				}
 
 				else if (Keyboard::isKeyPressed(Keyboard::M))
@@ -298,25 +306,30 @@ int main()
 					playerstrip = strip::BOTTOM;
 					spritePlayer.setPosition(1650, 750);
 					spriteAxe.setPosition(1600, AXE_POSITION_BOTTOM);
+					spriteLog.setPosition(1500, 780);
 				}
 				
 				score++;
 
 				//Add to the amount of time remaining
-				timeRemaining += (2 / score) + .15;
+				timeRemaining += (1 / score) + .16;
 
 				//Update the spiders
 				updateSpiders();
 
-				//Set the log flying to the left
-				spriteLog.setPosition(1600, 720);
-				logSpeedX = -5000;
+				//Set the log flying
+				logSpeedX = 2500;
 				logActive = true;
 
 				acceptInput = false;
 
 				//Chop sound
-				chop.play();
+
+				int r = (rand() % 2);
+				if (r == 0)
+					break1.play();
+				else
+					break2.play();
 			}
 		}
 
@@ -519,10 +532,16 @@ int main()
 				acceptInput = false;
 
 				//Draw the gravestone
-				spriteRIP.setPosition(525, 760);
+				spriteRIP.setPosition(spritePlayer.getPosition().x, spritePlayer.getPosition().y);
 
 				//Hide the player
-				spritePlayer.setPosition(2000, 660);
+				spritePlayer.setPosition(2000, 0);
+
+				//Hide the axe
+				spriteAxe.setPosition(2000, 0);
+
+				//Hide the cobble
+				spriteLog.setPosition(2000, 0);
 
 				//Change the text of the message
 				messageText.setString("BITTEN!");
@@ -616,7 +635,7 @@ void updateSpiders()
 	}
 
 	//Spawn a new branch at position 0
-	int r = (rand() % 7);
+	int r = (rand() % 5);
 
 	switch (r) {
 	case 0:
