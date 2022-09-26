@@ -1,10 +1,21 @@
+/*
+CONTROLS
+
+O = mine top strip
+K = mine center strip
+M = mine bottom strip
+Enter = start
+Esc = close window
+
+*/
+
 #include <sstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
 using namespace sf;
 
-//Function prototypes
+//Function prototype
 void updateSpiders();
 
 //Prepare spiders
@@ -18,9 +29,11 @@ strip spiderPositions[NUM_SPIDERS];
 
 int main()
 {
-	VideoMode vm(1920, 1080);
-	RenderWindow window(vm, "Strip Miner", Style::Default);
-	//Need to figure out how to adapt resolution
+	VideoMode vm(960, 540);
+
+	RenderWindow window(vm, "Strip Miner");
+	View view(sf::FloatRect(0, 0, 1920, 1080));
+	window.setView(view);
 
 	//Seed the randomizer only once
 	srand((int)time(0));
