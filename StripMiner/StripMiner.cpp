@@ -29,10 +29,10 @@ strip spiderPositions[NUM_SPIDERS];
 
 int main()
 {
-	VideoMode vm(960, 540);
-
-	RenderWindow window(vm, "Strip Miner");
-	View view(sf::FloatRect(0, 0, 1920, 1080));
+	VideoMode vm;
+	RenderWindow window(vm, "Strip Miner", Style::Fullscreen);
+	View view(FloatRect(0, 0, 1920, 1080));
+		//coordinates of upper left corner, width and height
 	window.setView(view);
 
 	//Seed the randomizer only once
