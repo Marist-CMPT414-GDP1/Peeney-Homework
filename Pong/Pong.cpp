@@ -1,7 +1,10 @@
 #include "Bat.h"
+#include "Ball.h"
 #include <sstream>
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
+
+//using namespace sf;
 
 int main() {
 	VideoMode vm(1920, 1080);
@@ -13,7 +16,8 @@ int main() {
 	//Create a bat at the bottom center of the screen
 	Bat bat(1920 / 2, 1080 - 20);
 
-	//WE WILL ADD A BALL LATER
+	//Create a ball
+	Ball ball(1920 / 2, 0);
 
 	Text hud;
 	Font font;
@@ -67,10 +71,46 @@ int main() {
 		//Update the delta time
 		Time dt = clock.restart();
 		bat.update(dt);
+		ball.update(dt);
 
 		std::stringstream ss;
 		ss << "Score:" << score << "   Lives:" << lives;
 		hud.setString(ss.str());
+
+		//Handle the ball hitting the bottom
+		if (ball.getPosition().top > window.getSize().y)
+		{
+			//reverse the ball direction
+			ball.reboundBottom();
+
+			lives--;
+
+			if (lives < 1)
+			{
+				score = 0;
+				lives = 3;
+			}
+		}
+
+		//Handle ball hitting top
+		if (ball.getPosition().top < 0)
+		{
+			ball.reboundBatOrTop();
+			score++;
+		}
+
+		//Handle ball hitting sides
+		if (ball.getPosition().left < 0 ||
+			ball.getPosition().left + ball.getPosition().width > window.getSize().x)
+		{
+			ball.reboundSides();
+		}
+
+		//Has the ball hit the bat?
+		if (ball.getPosition().intersects(bat.getPosition()))
+		{
+			ball.reboundBatOrTop();
+		}
 
 		/*
 		========== DRAW THE BAT, BALL, AND HUD ==========
@@ -79,6 +119,7 @@ int main() {
 		window.clear();
 		window.draw(hud);
 		window.draw(bat.getShape());
+		window.draw(ball.getShape());
 		window.display();
 	}
 
