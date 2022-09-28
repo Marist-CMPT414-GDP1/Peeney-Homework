@@ -30,13 +30,56 @@ int main() {
 		========== HANDLE THE PLAYER'S INPUT ==========
 		*/
 
+		Event event;
+		while (window.pollEvent(event)) 
+		{
+			if (event.type == Event::Closed)
+				window.close();
+		}
+
+		if (Keyboard::isKeyPressed(Keyboard::Escape))
+		{
+			window.close();
+		}
+
+		if (Keyboard::isKeyPressed(Keyboard::Left))
+		{
+			bat.moveLeft();
+		}
+		else
+		{
+			bat.stopLeft();
+		}
+
+		if (Keyboard::isKeyPressed(Keyboard::Right))
+		{
+			bat.moveRight();
+		}
+		else
+		{
+			bat.stopRight();
+		}
+
 		/*
 		========== UPDATE THE BAT, BALL, AND HUD ==========
 		*/
 
+		//Update the delta time
+		Time dt = clock.restart();
+		bat.update(dt);
+
+		std::stringstream ss;
+		ss << "Score:" << score << "   Lives:" << lives;
+		hud.setString(ss.str());
+
 		/*
 		========== DRAW THE BAT, BALL, AND HUD ==========
 		*/
+
+		window.clear();
+		window.draw(hud);
+		window.draw(bat.getShape());
+		window.display();
 	}
 
 	return 0;
