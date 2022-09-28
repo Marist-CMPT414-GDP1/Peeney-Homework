@@ -12,6 +12,7 @@ int main() {
 
 	int score = 0;
 	int lives = 3;
+	bool allowScoring = false;
 
 	//Create a bat at the bottom center of the screen
 	Bat bat(1920 / 2, 1080 - 20);
@@ -82,6 +83,7 @@ int main() {
 		{
 			//reverse the ball direction
 			ball.reboundBottom();
+			allowScoring = false;
 
 			lives--;
 
@@ -96,7 +98,10 @@ int main() {
 		if (ball.getPosition().top < 0)
 		{
 			ball.reboundBatOrTop();
-			score++;
+			if (allowScoring)
+			{
+				score++;
+			}
 		}
 
 		//Handle ball hitting sides
@@ -110,6 +115,7 @@ int main() {
 		if (ball.getPosition().intersects(bat.getPosition()))
 		{
 			ball.reboundBatOrTop();
+			allowScoring = true;
 		}
 
 		/*
