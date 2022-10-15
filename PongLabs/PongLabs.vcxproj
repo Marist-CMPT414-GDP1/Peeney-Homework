@@ -133,10 +133,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="PongLabs.cpp" />
     <ClCompile Include="Saber.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Laser.h" />
     <ClInclude Include="Saber.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

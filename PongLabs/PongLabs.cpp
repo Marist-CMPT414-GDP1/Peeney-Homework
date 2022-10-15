@@ -1,23 +1,41 @@
 //Justin Peeney
 //GDP1
-//Lab3 - Gone Batty Part 1
-//9-29-22
+//Lab3 - Gone Batty Part 2
+//10-13-22
 
 #include <SFML/Graphics.hpp>
 #include "Saber.h"
+#include "Laser.h"
+#include <sstream>
+#include <cstdlib>
 
 using namespace sf;
 
 int main()
 {
-	VideoMode vm;
-	RenderWindow window(vm, "PongLabs", Style::Fullscreen);
-	View view(FloatRect(0, 0, 1920, 1080));
+	VideoMode vm(1920, 1080);
+	RenderWindow window(vm, "PongLabs",Style::Default);
+	//View view(FloatRect(0, 0, 1920, 1080));
 	//coordinates of upper left corner, width and height
-	window.setView(view);
+	//window.setView(view);
+
+	int score = 0;
+	int lives = 3;
+	bool allowScoring = false;
 
 	//Create a saber
-	Saber saber(20, 1080/4);
+	Saber saber(20, 1080 / 4);
+
+	//Create the laser
+	Laser laser(1820, 1080 / 2);
+
+	Text hud;
+	Font font;
+	font.loadFromFile("fonts/DS-DIGIT.ttf");
+	hud.setFont(font);
+	hud.setCharacterSize(75);
+	hud.setFillColor(Color::White);
+	hud.setPosition(20, 20);
 
 	Clock clock;
 
@@ -71,19 +89,65 @@ int main()
 		}
 
 		/*
-		========== UPDATE THE SABER ==========
+		========== UPDATE THE SABER, LASER, AND HUD ==========
 		*/
 
 		//Update the delta time
 		Time dt = clock.restart();
 		saber.update(dt);
+		laser.update(dt);
+
+		std::stringstream ss;
+		ss << "Score:" << score << "   Lives:" << lives;
+		hud.setString(ss.str());
+
+		//Handle the ball hitting the left
+		if (laser.getPosition().left < 0)
+		{
+			laser.reboundLeft();
+			allowScoring = false;
+
+			lives--;
+
+			if (lives < 1)
+			{
+				score = 0;
+				lives = 3;
+			}
+		}
+
+		//Handle ball hitting the right
+		if (laser.getPosition().left + laser.getPosition().width > window.getSize().x)
+		{
+			laser.reboundRight();
+			if (allowScoring)
+			{
+				score++;
+			}
+		}
+
+		//Handle laser hitting edges
+		if (laser.getPosition().top < 0 ||
+			laser.getPosition().top + laser.getPosition().height > window.getSize().y)
+		{
+			laser.reboundEdges();
+		}
+
+		//Has the laser hit the saber?
+		if (laser.getPosition().intersects(saber.getDimensions()))
+		{
+			laser.reboundSaber();
+			allowScoring = true;
+		}
 
 		/*
-		========== DRAW THE SABER ==========
+		========== DRAW THE SABER, LASER, AND HUD ==========
 		*/
 
 		window.clear();
+		window.draw(hud);
 		window.draw(saber.getSprite());
+		window.draw(laser.getShape());
 		window.display();
 	}
 
