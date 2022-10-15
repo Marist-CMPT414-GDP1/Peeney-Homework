@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pong", "Pong\Pong.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PongLabs", "PongLabs\PongLabs.vcxproj", "{A27CA461-67B1-4991-A8F5-098A32F770B6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZombieArena", "ZombieArena\ZombieArena.vcxproj", "{12E16AAE-D044-4B94-8D43-8D0033204EAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{A27CA461-67B1-4991-A8F5-098A32F770B6}.Release|x64.Build.0 = Release|x64
 		{A27CA461-67B1-4991-A8F5-098A32F770B6}.Release|x86.ActiveCfg = Release|Win32
 		{A27CA461-67B1-4991-A8F5-098A32F770B6}.Release|x86.Build.0 = Release|Win32
+		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Debug|x64.ActiveCfg = Debug|x64
+		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Debug|x64.Build.0 = Debug|x64
+		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Debug|x86.ActiveCfg = Debug|Win32
+		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Debug|x86.Build.0 = Debug|Win32
+		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Release|x64.ActiveCfg = Release|x64
+		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Release|x64.Build.0 = Release|x64
+		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Release|x86.ActiveCfg = Release|Win32
+		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
