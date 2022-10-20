@@ -7,19 +7,18 @@ Laser::Laser(float startX, float startY)
 	position.x = startX;
 	position.y = startY;
 
-	shape.setSize(sf::Vector2f(50, 50));
-	shape.setPosition(position);
-	shape.setFillColor(Color::White);
+	textureLaser.loadFromFile("graphics/laser.png");
+	spriteLaser.setTexture(textureLaser);
 }
 
 FloatRect Laser::getPosition()
 {
-	return shape.getGlobalBounds();
+	return spriteLaser.getGlobalBounds();
 }
 
-RectangleShape Laser::getShape()
+Sprite Laser::getSprite()
 {
-	return shape;
+	return spriteLaser;
 }
 
 float Laser::getXVelocity()
@@ -58,12 +57,12 @@ void Laser::update(Time dt)
 {
 	position.x += directionX * speed * dt.asSeconds();
 	position.y += directionY * speed * dt.asSeconds();
-	speed = speed - speed * 0.00025;
+	speed = speed - speed * 0.000015 * dt.asSeconds();
 	if (increaseSpeed)
 	{
-		speed = speed * 2;
+		speed = speed * 1.1;
 		increaseSpeed = false;
 	}
 
-	shape.setPosition(position);
+	spriteLaser.setPosition(position);
 }

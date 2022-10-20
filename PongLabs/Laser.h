@@ -7,7 +7,10 @@ class Laser
 {
 private:
 	Vector2f position;
-	RectangleShape shape;
+
+	Sprite spriteLaser;
+
+	Texture textureLaser;
 
 	float speed = 2000.0f;
 	float directionX = -.2f;
@@ -20,7 +23,7 @@ public:
 
 	FloatRect getPosition();
 
-	RectangleShape getShape();
+	Sprite getSprite();
 
 	float getXVelocity();
 

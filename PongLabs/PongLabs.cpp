@@ -27,7 +27,7 @@ int main()
 	Saber saber(20, 1080 / 4);
 
 	//Create the laser
-	Laser laser(1820, 1080 / 2);
+	Laser laser(1720, 1080 / 2);
 
 	Text hud;
 	Font font;
@@ -147,7 +147,7 @@ int main()
 		window.clear();
 		window.draw(hud);
 		window.draw(saber.getSprite());
-		window.draw(laser.getShape());
+		window.draw(laser.getSprite());
 		window.display();
 	}
 
