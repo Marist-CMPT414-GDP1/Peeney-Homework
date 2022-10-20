@@ -11,6 +11,8 @@
 
 using namespace sf;
 
+enum class state {MENU, PLAY, GAMEOVER};
+
 int main()
 {
 	VideoMode vm(1920, 1080);
@@ -22,6 +24,8 @@ int main()
 	int score = 0;
 	int lives = 3;
 	bool allowScoring = false;
+
+	state state = state::MENU;
 
 	//Create a saber
 	Saber saber(20, 1080 / 4);
@@ -36,6 +40,17 @@ int main()
 	hud.setCharacterSize(75);
 	hud.setFillColor(Color::White);
 	hud.setPosition(20, 20);
+
+	Sprite spriteScreen;
+	Texture textureScreen;
+	textureScreen.loadFromFile("graphics/screen.png");
+	spriteScreen.setTexture(textureScreen);
+
+	Text screenText;
+	screenText.setFont(font);
+	screenText.setCharacterSize(100);
+	screenText.setFillColor(Color::White);
+	screenText.setPosition(20, 20);
 
 	Clock clock;
 
@@ -57,87 +72,106 @@ int main()
 			window.close();
 		}
 
-		if (Keyboard::isKeyPressed(Keyboard::Left)
-			|| Keyboard::isKeyPressed(Keyboard::Right)
-			|| Keyboard::isKeyPressed(Keyboard::Up)
-			|| Keyboard::isKeyPressed(Keyboard::Down))
+		if (Keyboard::isKeyPressed(Keyboard::Enter) && state != state::PLAY)
+		{
+			laser.reboundLeft();
+			state = state::PLAY;
+		}
+
+		if (state == state::PLAY)
 		{
 
-			if (Keyboard::isKeyPressed(Keyboard::Left))
+			if (Keyboard::isKeyPressed(Keyboard::Left)
+				|| Keyboard::isKeyPressed(Keyboard::Right)
+				|| Keyboard::isKeyPressed(Keyboard::Up)
+				|| Keyboard::isKeyPressed(Keyboard::Down))
 			{
-				saber.move(Saber::movement::LEFT);
+
+				if (Keyboard::isKeyPressed(Keyboard::Left))
+				{
+					saber.move(Saber::movement::LEFT);
+				}
+
+				else if (Keyboard::isKeyPressed(Keyboard::Right))
+				{
+					saber.move(Saber::movement::RIGHT);
+				}
+
+				else if (Keyboard::isKeyPressed(Keyboard::Up))
+				{
+					saber.move(Saber::movement::UP);
+				}
+
+				else if (Keyboard::isKeyPressed(Keyboard::Down))
+				{
+					saber.move(Saber::movement::DOWN);
+				}
+			}
+			else
+			{
+				saber.move(Saber::movement::NONE);
 			}
 
-			else if (Keyboard::isKeyPressed(Keyboard::Right))
+			/*
+			========== UPDATE THE SABER, LASER, AND HUD ==========
+			*/
+
+			//Update the delta time
+			Time dt = clock.restart();
+			saber.update(dt);
+			laser.update(dt);
+
+			std::stringstream ss;
+			ss << "Score:" << score << "   Lives:" << lives;
+			hud.setString(ss.str());
+
+			//Handle the ball hitting the left
+			if (laser.getPosition().left < 0)
 			{
-				saber.move(Saber::movement::RIGHT);
+				laser.reboundLeft();
+				allowScoring = false;
+
+				lives--;
+
+				if (lives < 1)
+				{
+					state = state::GAMEOVER;
+					score = 0;
+					lives = 3;
+				}
 			}
 
-			else if (Keyboard::isKeyPressed(Keyboard::Up))
+			//Handle ball hitting the right
+			if (laser.getPosition().left + laser.getPosition().width > window.getSize().x)
 			{
-				saber.move(Saber::movement::UP);
+				laser.reboundRight();
+				if (allowScoring)
+				{
+					score++;
+				}
 			}
 
-			else if (Keyboard::isKeyPressed(Keyboard::Down))
+			//Handle laser hitting edges
+			if (laser.getPosition().top < 0 ||
+				laser.getPosition().top + laser.getPosition().height > window.getSize().y)
 			{
-				saber.move(Saber::movement::DOWN);
+				laser.reboundEdges();
 			}
+
+			//Has the laser hit the saber?
+			if (laser.getPosition().intersects(saber.getDimensions()))
+			{
+				laser.reboundSaber();
+				allowScoring = true;
+			}
+		}
+		else if (state == state::MENU)
+		{
+			screenText.setString("Press Enter to start");
 		}
 		else
 		{
-			saber.move(Saber::movement::NONE);
-		}
-
-		/*
-		========== UPDATE THE SABER, LASER, AND HUD ==========
-		*/
-
-		//Update the delta time
-		Time dt = clock.restart();
-		saber.update(dt);
-		laser.update(dt);
-
-		std::stringstream ss;
-		ss << "Score:" << score << "   Lives:" << lives;
-		hud.setString(ss.str());
-
-		//Handle the ball hitting the left
-		if (laser.getPosition().left < 0)
-		{
-			laser.reboundLeft();
-			allowScoring = false;
-
-			lives--;
-
-			if (lives < 1)
-			{
-				score = 0;
-				lives = 3;
-			}
-		}
-
-		//Handle ball hitting the right
-		if (laser.getPosition().left + laser.getPosition().width > window.getSize().x)
-		{
-			laser.reboundRight();
-			if (allowScoring)
-			{
-				score++;
-			}
-		}
-
-		//Handle laser hitting edges
-		if (laser.getPosition().top < 0 ||
-			laser.getPosition().top + laser.getPosition().height > window.getSize().y)
-		{
-			laser.reboundEdges();
-		}
-
-		//Has the laser hit the saber?
-		if (laser.getPosition().intersects(saber.getDimensions()))
-		{
-			laser.reboundSaber();
-			allowScoring = true;
+			screenText.setString("Game Over\nPress Enter to retry");
 		}
 
 		/*
@@ -148,6 +182,11 @@ int main()
 		window.draw(hud);
 		window.draw(saber.getSprite());
 		window.draw(laser.getSprite());
+		if (state != state::PLAY)
+		{
+			window.draw(spriteScreen);
+			window.draw(screenText);
+		}
 		window.display();
 	}
 

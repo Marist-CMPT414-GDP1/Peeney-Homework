@@ -47,7 +47,7 @@ void Laser::reboundRight()
 
 void Laser::reboundLeft()
 {
-	position.x = 1820;
+	position.x = 1720;
 	position.y = 1080 / 2;
 	speed = 2000.0f;
 	std::cerr << "reboundLeft() - respawned laser" << std::endl;
@@ -62,6 +62,10 @@ void Laser::update(Time dt)
 	{
 		speed = speed * 1.1;
 		increaseSpeed = false;
+	}
+	if (speed < 0.5)
+	{
+		reboundLeft();
 	}
 
 	spriteLaser.setPosition(position);
