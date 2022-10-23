@@ -55,6 +55,7 @@ int main()
 		"graphics/background_sheet.png");
 
 	// Prepare for a horde of zombies
+	float numZombiesMultiplier = 1;
 	int numZombies;
 	int numZombiesAlive;
 	Zombie* zombies = NULL;
@@ -125,15 +126,14 @@ int main()
 	levelUpText.setCharacterSize(80);
 	levelUpText.setFillColor(Color::White);
 	levelUpText.setPosition(150, 250);
-	std::stringstream levelUpStream;
-	levelUpStream <<
-		"1- Increased rate of fire" <<
-		"\n2- Increased clip size(next reload)" <<
-		"\n3- Increased max health" <<
-		"\n4- Increased run speed" <<
-		"\n5- More and better health pickups" <<
-		"\n6- More and better ammo pickups";
-	levelUpText.setString(levelUpStream.str());
+	levelUpText.setString("1 - Increased rate of fire"
+		"\n2- Increased clip size(next reload)"
+		"\n3- Increased max health"
+		"\n4- Increased run speed"
+		"\n5- More and better health pickups"
+		"\n6- More and better ammo pickups"
+		"\n7- Less zombies"
+	);
 
 	// Ammo
 	Text ammoText;
@@ -283,6 +283,9 @@ int main()
 					bulletsInClip = 6;
 					clipSize = 6;
 					fireRate = 1;
+
+					//Reset the zombie horde multiplier
+					numZombiesMultiplier = 1;
 
 					// Reset the player's stats
 					player.resetPlayerStats();
@@ -438,6 +441,12 @@ int main()
 				state = State::PLAYING;
 			}
 
+			if (event.key.code == Keyboard::Num7)
+			{
+				numZombiesMultiplier -= numZombiesMultiplier * .1;
+				state = State::PLAYING;
+			}
+
 			if (state == State::PLAYING)
 			{
 				// Increase the wave number
@@ -487,7 +496,7 @@ int main()
 				ammoPickup.setArena(arena);
 
 				// Create a horde of zombies
-				numZombies = 5 * wave;
+				numZombies = (int)(5 * numZombiesMultiplier * wave);
 
 				// Delete the previously allocated memory (if it exists)
 				delete[] zombies;
