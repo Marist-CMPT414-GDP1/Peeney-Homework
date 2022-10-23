@@ -444,25 +444,31 @@ int main()
 				wave++;
 
 				// Prepare the level
-				arena.width = 500 * wave;
+				arena.width = 600 * wave;
 
-				//Get a random aspect ratio
-				int r = rand() % 3;
+				//Determine aspect ratio
+				int r;
+				if (wave == 1)
+				{
+					r = 0; //Other aspect ratios make the arena too small for the first wave
+				}
+				else
+				{
+					r = rand() % 3;
+				}
+
 				switch (r)
 				{
-				case 0: //4:3
-					//arena.height = round((3 / 4) * 500 * wave);
-					arena.height = 500 * wave;
+				case 0: //Roughly 4:3
+					arena.height = 450 * wave;
 					break;
 
-				case 1: //16:9
-					//arena.height = round((9 / 16) * 500 * wave);
-					arena.height = 500 * wave;
+				case 1: //Roughly 16:9
+					arena.height = 350 * wave;
 					break;
 
-				case 2: //21:9
-					//arena.height = round((9 / 21) * 500 * wave);
-					arena.height = 500 * wave;
+				case 2: //Roughly 21:9
+					arena.height = 250 * wave;
 					break;
 				}
 
