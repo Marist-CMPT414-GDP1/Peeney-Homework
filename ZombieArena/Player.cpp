@@ -10,7 +10,7 @@ Player::Player()
 	// Associate a texture with the sprite
 	// !!Watch this space!!
 	m_Sprite = Sprite(TextureHolder::GetTexture(
-		"graphics/player.png"));
+		"graphics/mario_r.png"));
 
 	// Set the origin of the sprite to the centre, 
 	// for smooth rotation
@@ -183,7 +183,23 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 		mousePosition.x - m_Resolution.x / 2)
 		* 180) / 3.141;
 
-	m_Sprite.setRotation(angle);
+	//Change the player's texture based on the angle
+	if (angle > -45 && angle <= 45)
+	{
+		m_Sprite.setTexture(TextureHolder::GetTexture("graphics/mario_r.png"));
+	}
+	else if (angle > 45 && angle <= 135)
+	{
+		m_Sprite.setTexture(TextureHolder::GetTexture("graphics/mario_d.png"));
+	}
+	else if (angle < -45 && angle >= -135)
+	{
+		m_Sprite.setTexture(TextureHolder::GetTexture("graphics/mario_u.png"));
+	}
+	else
+	{
+		m_Sprite.setTexture(TextureHolder::GetTexture("graphics/mario_l.png"));
+	}
 }
 
 void Player::upgradeSpeed()
