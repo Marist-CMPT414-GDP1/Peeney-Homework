@@ -27,6 +27,7 @@ private:
 	Sprite m_Sprite;
 
 	// How fast can this one run/crawl?
+	float m_DefaultSpeed;
 	float m_Speed;
 
 	// How much health has it got?
@@ -34,6 +35,13 @@ private:
 
 	// Is it still alive?
 	bool m_Alive;
+
+	//What type of Zombie is it? (0 = Bloater, 1 = Chaser, 2 = Crawler)
+	int m_Type;
+
+	//Behavior-specific variables
+	int bloaterFreezeTime = 0;
+	bool crawlerBoosting = false;
 
 	// Public prototypes go here	
 public:

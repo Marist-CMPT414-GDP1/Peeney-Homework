@@ -12,7 +12,7 @@ using namespace sf;
 
 int main()
 {
-	// Here is the instabce of TextureHolder
+	// Here is the instance of TextureHolder
 	TextureHolder holder;
 
 	// The game will always be in one of four states
@@ -443,10 +443,29 @@ int main()
 				// Increase the wave number
 				wave++;
 
-				// Prepare thelevel
-				// We will modify the next two lines later
+				// Prepare the level
 				arena.width = 500 * wave;
-				arena.height = 500 * wave;
+
+				//Get a random aspect ratio
+				int r = rand() % 3;
+				switch (r)
+				{
+				case 0: //4:3
+					//arena.height = round((3 / 4) * 500 * wave);
+					arena.height = 500 * wave;
+					break;
+
+				case 1: //16:9
+					//arena.height = round((9 / 16) * 500 * wave);
+					arena.height = 500 * wave;
+					break;
+
+				case 2: //21:9
+					//arena.height = round((9 / 21) * 500 * wave);
+					arena.height = 500 * wave;
+					break;
+				}
+
 				arena.left = 0;
 				arena.top = 0;
 

@@ -8,15 +8,15 @@ using namespace std;
 
 void Zombie::spawn(float startX, float startY, int type, int seed)
 {
-
-	switch (type)
+	m_Type = type;
+	switch (m_Type)
 	{
 	case 0:
 		// Bloater
 		m_Sprite = Sprite(TextureHolder::GetTexture(
 			"graphics/bloater.png"));
 
-		m_Speed = 40;
+		m_DefaultSpeed = 40;
 		m_Health = 5;
 		break;
 
@@ -25,7 +25,7 @@ void Zombie::spawn(float startX, float startY, int type, int seed)
 		m_Sprite = Sprite(TextureHolder::GetTexture(
 			"graphics/chaser.png"));
 
-		m_Speed = 70;
+		m_DefaultSpeed = 70;
 		m_Health = 1;
 		break;
 
@@ -34,19 +34,19 @@ void Zombie::spawn(float startX, float startY, int type, int seed)
 		m_Sprite = Sprite(TextureHolder::GetTexture(
 			"graphics/crawler.png"));
 
-		m_Speed = 20;
+		m_DefaultSpeed = 20;
 		m_Health = 3;
 		break;
 	}
 
 	// Modify the speed to make the zombie unique
 	// Every zombie is unique. Create a speed modifier
-	srand((int)time(0) * seed);
 	// Somewhere between 80 an 100
 	float modifier = (rand() % MAX_VARRIANCE) + OFFSET;
 	// Express as a fraction of 1
 	modifier /= 100; // Now equals between .7 and 1
-	m_Speed *= modifier;
+	m_DefaultSpeed *= modifier;
+	m_Speed = m_DefaultSpeed;
 
 	m_Position.x = startX;
 	m_Position.y = startY;
@@ -94,6 +94,68 @@ void Zombie::update(float elapsedTime,
 {
 	float playerX = playerLocation.x;
 	float playerY = playerLocation.y;
+
+	//Change zombie behavior according to type
+	
+	//Bloaters have a 1/6000 chance every frame to freeze for a bit
+	if (m_Type == 0)
+	{
+		if (bloaterFreezeTime == 0)
+		{
+			if (m_Speed <= 0)
+			{
+				m_Speed = m_DefaultSpeed;
+			}
+			int r = (rand() % 6000);
+			if (r == 0)
+			{
+				bloaterFreezeTime = rand() % 600 + 420;
+			}
+		}
+		else
+		{
+			if (m_Speed == m_DefaultSpeed)
+			{
+				m_Speed = 0;
+			}
+			bloaterFreezeTime -= 1;
+		}
+	}
+
+	//Crawlers has a 1/9000 chance of dashing forward every frame	
+	if (m_Type == 2)
+	{
+		if (crawlerBoosting)
+		{
+			if (m_Speed < 140)
+			{
+				m_Speed += 10;
+			}
+			else
+			{
+				crawlerBoosting = false;
+			}
+		}
+		else
+		{
+			if (m_Speed == m_DefaultSpeed)
+			{
+				int r = (rand() % 9000);
+				if (r == 0)
+				{
+					crawlerBoosting = true;
+				}
+			}
+			else if (m_Speed < m_DefaultSpeed)
+			{
+				m_Speed = m_DefaultSpeed;
+			}
+			else
+			{
+				m_Speed -= 0.2;
+			}
+		}
+	}
 
 	// Update the zombie position variables
 	if (playerX > m_Position.x)
