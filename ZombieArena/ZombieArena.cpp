@@ -47,6 +47,7 @@ int main()
 
 	// The boundaries of the arena
 	IntRect arena;
+	int arenaWidthModifier = 0;
 
 	// Create the background
 	VertexArray background;
@@ -133,6 +134,7 @@ int main()
 		"\n5- More and better health pickups"
 		"\n6- More and better ammo pickups"
 		"\n7- Less zombies"
+		"\n8- Wider arena"
 	);
 
 	// Ammo
@@ -284,8 +286,9 @@ int main()
 					clipSize = 6;
 					fireRate = 1;
 
-					//Reset the zombie horde multiplier
+					//Reset the upgrade modifiers
 					numZombiesMultiplier = 1;
+					arenaWidthModifier = 0;
 
 					// Reset the player's stats
 					player.resetPlayerStats();
@@ -447,13 +450,19 @@ int main()
 				state = State::PLAYING;
 			}
 
+			if (event.key.code == Keyboard::Num8)
+			{
+				arenaWidthModifier += 50;
+				state = State::PLAYING;
+			}
+
 			if (state == State::PLAYING)
 			{
 				// Increase the wave number
 				wave++;
 
 				// Prepare the level
-				arena.width = 600 * wave;
+				arena.width = (600 + arenaWidthModifier) * wave;
 
 				//Determine aspect ratio
 				int r;
