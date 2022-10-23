@@ -14,7 +14,7 @@ void Zombie::spawn(float startX, float startY, int type, int seed)
 	case 0:
 		// Bloater
 		m_Sprite = Sprite(TextureHolder::GetTexture(
-			"graphics/bloater.png"));
+			"graphics/0_r.png"));
 
 		m_DefaultSpeed = 40;
 		m_Health = 5;
@@ -32,7 +32,7 @@ void Zombie::spawn(float startX, float startY, int type, int seed)
 	case 2:
 		// Crawler
 		m_Sprite = Sprite(TextureHolder::GetTexture(
-			"graphics/crawler.png"));
+			"graphics/2_r.png"));
 
 		m_DefaultSpeed = 20;
 		m_Health = 3;
@@ -87,6 +87,41 @@ FloatRect Zombie::getPosition()
 Sprite Zombie::getSprite()
 {
 	return m_Sprite;
+}
+
+std::string Zombie::getDirection(float angle)
+{
+	//Determine which way the sprite should face
+	if (m_Type == 1)
+	{
+		if (angle > -45 && angle <= 45)
+		{
+			return "_r.png";
+		}
+		else if (angle > 45 && angle <= 135)
+		{
+			return "_d.png";
+		}
+		else if (angle < -45 && angle >= -135)
+		{
+			return "_u.png";
+		}
+		else
+		{
+			return "_l.png";
+		}
+	}
+	else
+	{
+		if (angle > -90 && angle <= 90)
+		{
+			return "_r.png";
+		}
+		else
+		{
+			return "_l.png";
+		}
+	}
 }
 
 void Zombie::update(float elapsedTime,
@@ -193,31 +228,10 @@ void Zombie::update(float elapsedTime,
 	//Reset the stream for the filename
 	m_directionFacingStream.str("");
 	m_directionFacingStream.clear();
-	m_directionFacingStream << "graphics/" << m_Type;
+	m_directionFacingStream << "graphics/" << m_Type << getDirection(angle);
 
-	//Determine which way the sprite should face
-	if (angle > -45 && angle <= 45)
-	{
-		m_directionFacingStream << "_r.png";
-	}
-	else if (angle > 45 && angle <= 135)
-	{
-		m_directionFacingStream << "_d.png";
-	}
-	else if (angle < -45 && angle >= -135)
-	{
-		m_directionFacingStream << "_u.png";
-	}
-	else
-	{
-		m_directionFacingStream << "_l.png";
-	}
-
-	if (m_Type == 1)
-	{
-		m_Sprite.setTexture(TextureHolder::GetTexture(
-			m_directionFacingStream.str()));
-	}
+	m_Sprite.setTexture(TextureHolder::GetTexture(
+		m_directionFacingStream.str()));
 
 
 }

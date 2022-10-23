@@ -65,6 +65,9 @@ public:
 	// Get a copy of the sprite to draw
 	Sprite getSprite();
 
+	//Get the the cardinal direction the sprite is facing
+	std::string getDirection(float angle);
+
 	// Update the zombie each frame
 	void update(float elapsedTime, Vector2f playerLocation);
 };
