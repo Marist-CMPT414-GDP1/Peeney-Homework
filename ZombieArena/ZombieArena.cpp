@@ -97,13 +97,13 @@ int main()
 
 	// Create a sprite for the ammo icon
 	Sprite spriteAmmoIcon;
-	Texture textureAmmoIcon = TextureHolder::GetTexture("graphics/ammo_icon.png");
+	Texture textureAmmoIcon = TextureHolder::GetTexture("graphics/fireball_icon.png");
 	spriteAmmoIcon.setTexture(textureAmmoIcon);
 	spriteAmmoIcon.setPosition(20, 980);
 
 	// Load the font
 	Font font;
-	font.loadFromFile("fonts/zombiecontrol.ttf");
+	font.loadFromFile("fonts/Super_Mario_Bros_Alphabet.ttf");
 
 	// Paused
 	Text pausedText;
@@ -128,7 +128,7 @@ int main()
 	levelUpText.setFillColor(Color::White);
 	levelUpText.setPosition(150, 250);
 	levelUpText.setString("1 - Increased rate of fire"
-		"\n2- Increased clip size(next reload)"
+		"\n2- Increased clip size (next reload)"
 		"\n3- Increased max health"
 		"\n4- Increased run speed"
 		"\n5- More and better health pickups"
@@ -200,43 +200,43 @@ int main()
 
 	// Prepare the hit sound
 	SoundBuffer hitBuffer;
-	hitBuffer.loadFromFile("sound/hit.wav");
+	hitBuffer.loadFromFile("sound/smb_fireworks.wav");
 	Sound hit;
 	hit.setBuffer(hitBuffer);
 
 	// Prepare the splat sound
 	SoundBuffer splatBuffer;
-	splatBuffer.loadFromFile("sound/splat.wav");
+	splatBuffer.loadFromFile("sound/smb_kick.wav");
 	sf::Sound splat;
 	splat.setBuffer(splatBuffer);
 
 	// Prepare the shoot sound
 	SoundBuffer shootBuffer;
-	shootBuffer.loadFromFile("sound/shoot.wav");
+	shootBuffer.loadFromFile("sound/smb_fireball.wav");
 	Sound shoot;
 	shoot.setBuffer(shootBuffer);
 
 	// Prepare the reload sound
 	SoundBuffer reloadBuffer;
-	reloadBuffer.loadFromFile("sound/reload.wav");
+	reloadBuffer.loadFromFile("sound/smb_stomp.wav");
 	Sound reload;
 	reload.setBuffer(reloadBuffer);
 
 	// Prepare the failed sound
 	SoundBuffer reloadFailedBuffer;
-	reloadFailedBuffer.loadFromFile("sound/reload_failed.wav");
+	reloadFailedBuffer.loadFromFile("sound/smb_bump.wav");
 	Sound reloadFailed;
 	reloadFailed.setBuffer(reloadFailedBuffer);
 
 	// Prepare the powerup sound
 	SoundBuffer powerupBuffer;
-	powerupBuffer.loadFromFile("sound/powerup.wav");
+	powerupBuffer.loadFromFile("sound/smb_powerup.wav");
 	Sound powerup;
 	powerup.setBuffer(powerupBuffer);
 
 	// Prepare the pickup sound
 	SoundBuffer pickupBuffer;
-	pickupBuffer.loadFromFile("sound/pickup.wav");
+	pickupBuffer.loadFromFile("sound/smb_1-up.wav");
 	Sound pickup;
 	pickup.setBuffer(pickupBuffer);
 
