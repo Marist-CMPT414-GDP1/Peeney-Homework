@@ -2,7 +2,7 @@
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "ZombieArena.h"
+#include "MarioArena.h"
 #include "Player.h"
 #include "TextureHolder.h"
 #include "Bullet.h"
@@ -27,7 +27,7 @@ int main()
 	resolution.y = VideoMode::getDesktopMode().height;
 
 	RenderWindow window(VideoMode(resolution.x, resolution.y),
-		"Zombie Arena", Style::Fullscreen);
+		"Mario Arena", Style::Fullscreen);
 
 	// Create a an SFML View for the main action
 	View mainView(sf::FloatRect(0, 0, resolution.x, resolution.y));
@@ -55,11 +55,11 @@ int main()
 	Texture textureBackground = TextureHolder::GetTexture(
 		"graphics/background_sheet.png");
 
-	// Prepare for a horde of zombies
-	float numZombiesMultiplier = 1;
-	int numZombies;
-	int numZombiesAlive;
-	Zombie* zombies = NULL;
+	// Prepare for a horde of enemies
+	float numEnemiesMultiplier = 1;
+	int numEnemies;
+	int numEnemiesAlive;
+	Enemy* enemies = NULL;
 
 	// 100 bullets should do
 	Bullet bullets[100];
@@ -133,7 +133,7 @@ int main()
 		"\n4- Increased run speed"
 		"\n5- More and better health pickups"
 		"\n6- More and better ammo pickups"
-		"\n7- Less zombies"
+		"\n7- Less enemies"
 		"\n8- Wider arena"
 	);
 
@@ -169,13 +169,13 @@ int main()
 	s << "Hi Score:" << hiScore;
 	hiScoreText.setString(s.str());
 
-	// Zombies remaining
-	Text zombiesRemainingText;
-	zombiesRemainingText.setFont(font);
-	zombiesRemainingText.setCharacterSize(55);
-	zombiesRemainingText.setFillColor(Color::White);
-	zombiesRemainingText.setPosition(1500, 980);
-	zombiesRemainingText.setString("Zombies: 100");
+	// Enemies remaining
+	Text enemiesRemainingText;
+	enemiesRemainingText.setFont(font);
+	enemiesRemainingText.setCharacterSize(55);
+	enemiesRemainingText.setFillColor(Color::White);
+	enemiesRemainingText.setPosition(1500, 980);
+	enemiesRemainingText.setString("Enemies: 100");
 
 	// Wave number
 	int wave = 0;
@@ -287,7 +287,7 @@ int main()
 					fireRate = 1;
 
 					//Reset the upgrade modifiers
-					numZombiesMultiplier = 1;
+					numEnemiesMultiplier = 1;
 					arenaWidthModifier = 0;
 
 					// Reset the player's stats
@@ -446,7 +446,7 @@ int main()
 
 			if (event.key.code == Keyboard::Num7)
 			{
-				numZombiesMultiplier -= numZombiesMultiplier * .1;
+				numEnemiesMultiplier -= numEnemiesMultiplier * .1;
 				state = State::PLAYING;
 			}
 
@@ -504,13 +504,13 @@ int main()
 				healthPickup.setArena(arena);
 				ammoPickup.setArena(arena);
 
-				// Create a horde of zombies
-				numZombies = (int)(5 * numZombiesMultiplier * wave);
+				// Create a horde of enemies
+				numEnemies = (int)(5 * numEnemiesMultiplier * wave);
 
 				// Delete the previously allocated memory (if it exists)
-				delete[] zombies;
-				zombies = createHorde(numZombies, arena);
-				numZombiesAlive = numZombies;
+				delete[] enemies;
+				enemies = createHorde(numEnemies, arena);
+				numEnemiesAlive = numEnemies;
 
 				// Play the powerup sound
 				powerup.play();
@@ -553,12 +553,12 @@ int main()
 			// Make the view centre around the player				
 			mainView.setCenter(player.getCenter());
 
-			// Loop through each Zombie and update them
-			for (int i = 0; i < numZombies; i++)
+			// Loop through each Enemy and update them
+			for (int i = 0; i < numEnemies; i++)
 			{
-				if (zombies[i].isAlive())
+				if (enemies[i].isAlive())
 				{
-					zombies[i].update(dt.asSeconds(), playerPosition);
+					enemies[i].update(dt.asSeconds(), playerPosition);
 				}
 			}
 
@@ -576,22 +576,22 @@ int main()
 			ammoPickup.update(dtAsSeconds);
 
 			// Collision detection
-			// Have any zombies been shot?
+			// Have any enemies been shot?
 			for (int i = 0; i < 100; i++)
 			{
-				for (int j = 0; j < numZombies; j++)
+				for (int j = 0; j < numEnemies; j++)
 				{
 					if (bullets[i].isInFlight() && 
-						zombies[j].isAlive())
+						enemies[j].isAlive())
 					{
 						if (bullets[i].getPosition().intersects
-							(zombies[j].getPosition()))
+							(enemies[j].getPosition()))
 						{
 							// Stop the bullet
 							bullets[i].stop();
 
 							// Register the hit and see if it was a kill
-							if (zombies[j].hit()) {
+							if (enemies[j].hit()) {
 								// Not just a hit but a kill too
 								score += 10;
 								if (score >= hiScore)
@@ -599,10 +599,10 @@ int main()
 									hiScore = score;
 								}
 
-								numZombiesAlive--;
+								numEnemiesAlive--;
 
-								// When all the zombies are dead (again)
-								if (numZombiesAlive == 0) {
+								// When all the enemies are dead (again)
+								if (numEnemiesAlive == 0) {
 									state = State::LEVELING_UP;
 								}
 							}	
@@ -616,11 +616,11 @@ int main()
 				}
 			}// End zombie being shot
 
-			// Have any zombies touched the player			
-			for (int i = 0; i < numZombies; i++)
+			// Have any enemies touched the player			
+			for (int i = 0; i < numEnemies; i++)
 			{
 				if (player.getPosition().intersects
-					(zombies[i].getPosition()) && zombies[i].isAlive())
+					(enemies[i].getPosition()) && enemies[i].isAlive())
 				{
 
 					if (player.hit(gameTimeTotal))
@@ -677,7 +677,7 @@ int main()
 				std::stringstream ssScore;
 				std::stringstream ssHiScore;
 				std::stringstream ssWave;
-				std::stringstream ssZombiesAlive;
+				std::stringstream ssEnemiesAlive;
 
 				// Update the ammo text
 				ssAmmo << bulletsInClip << "/" << bulletsSpare;
@@ -696,8 +696,8 @@ int main()
 				waveNumberText.setString(ssWave.str());
 
 				// Update the high score text
-				ssZombiesAlive << "Zombies:" << numZombiesAlive;
-				zombiesRemainingText.setString(ssZombiesAlive.str());
+				ssEnemiesAlive << "Enemies:" << numEnemiesAlive;
+				enemiesRemainingText.setString(ssEnemiesAlive.str());
 
 				framesSinceLastHUDUpdate = 0;
 				timeSinceLastUpdate = Time::Zero;
@@ -722,10 +722,10 @@ int main()
 			// Draw the background
 			window.draw(background, &textureBackground);
 
-			// Draw the zombies
-			for (int i = 0; i < numZombies; i++)
+			// Draw the enemies
+			for (int i = 0; i < numEnemies; i++)
 			{
-				window.draw(zombies[i].getSprite());
+				window.draw(enemies[i].getSprite());
 			}
 
 			for (int i = 0; i < 100; i++)
@@ -762,7 +762,7 @@ int main()
 			window.draw(hiScoreText);
 			window.draw(healthBar);
 			window.draw(waveNumberText);
-			window.draw(zombiesRemainingText);
+			window.draw(enemiesRemainingText);
 		}
 
 		if (state == State::LEVELING_UP)

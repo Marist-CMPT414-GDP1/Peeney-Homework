@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ZombieArena.cpp">
+    <ClCompile Include="MarioArena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
@@ -36,7 +36,7 @@
     <ClCompile Include="TextureHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Zombie.cpp">
+    <ClCompile Include="Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,10 +53,10 @@
     <ClInclude Include="TextureHolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Zombie.h">
+    <ClInclude Include="Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ZombieArena.h">
+    <ClInclude Include="MarioArena.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

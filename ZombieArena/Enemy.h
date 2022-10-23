@@ -4,7 +4,7 @@
 
 using namespace sf;
 
-class Zombie
+class Enemy
 {
 private:
 	// How fast is each zombie type?
@@ -37,7 +37,7 @@ private:
 	// Is it still alive?
 	bool m_Alive;
 
-	//What type of Zombie is it? (0 = Bloater, 1 = Chaser, 2 = Crawler)
+	//What type of Enemy is it? (0 = Bloater, 1 = Chaser, 2 = Crawler)
 	int m_Type;
 
 	//Behavior-specific variables

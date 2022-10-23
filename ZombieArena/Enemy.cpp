@@ -1,4 +1,4 @@
-#include "zombie.h"
+#include "Enemy.h"
 #include "TextureHolder.h"
 #include <cstdlib>
 #include <ctime>
@@ -6,7 +6,7 @@
 using namespace std;
 
 
-void Zombie::spawn(float startX, float startY, int type, int seed)
+void Enemy::spawn(float startX, float startY, int type, int seed)
 {
 	m_Type = type;
 	switch (m_Type)
@@ -39,8 +39,8 @@ void Zombie::spawn(float startX, float startY, int type, int seed)
 		break;
 	}
 
-	// Modify the speed to make the zombie unique
-	// Every zombie is unique. Create a speed modifier
+	// Modify the speed to make the enemy unique
+	// Every enemy is unique. Create a speed modifier
 	// Somewhere between 80 an 100
 	float modifier = (rand() % MAX_VARRIANCE) + OFFSET;
 	// Express as a fraction of 1
@@ -55,7 +55,7 @@ void Zombie::spawn(float startX, float startY, int type, int seed)
 	m_Sprite.setPosition(m_Position);
 }
 
-bool Zombie::hit()
+bool Enemy::hit()
 {
 	m_Health--;
 
@@ -64,7 +64,7 @@ bool Zombie::hit()
 		// dead
 		m_Alive = false;
 		m_Sprite.setTexture(TextureHolder::GetTexture(
-			"graphics/blood.png"));
+			"graphics/skull.png"));
 
 		return true;
 	}
@@ -73,23 +73,23 @@ bool Zombie::hit()
 	return false;
 }
 
-bool Zombie::isAlive()
+bool Enemy::isAlive()
 {
 	return m_Alive;
 }
 
-FloatRect Zombie::getPosition()
+FloatRect Enemy::getPosition()
 {
 	return m_Sprite.getGlobalBounds();
 }
 
 
-Sprite Zombie::getSprite()
+Sprite Enemy::getSprite()
 {
 	return m_Sprite;
 }
 
-std::string Zombie::getDirection(float angle)
+std::string Enemy::getDirection(float angle)
 {
 	//Determine which way the sprite should face
 	if (m_Type == 1)
@@ -124,13 +124,13 @@ std::string Zombie::getDirection(float angle)
 	}
 }
 
-void Zombie::update(float elapsedTime,
+void Enemy::update(float elapsedTime,
 	Vector2f playerLocation)
 {
 	float playerX = playerLocation.x;
 	float playerY = playerLocation.y;
 
-	//Change zombie behavior according to type
+	//Change enemy behavior according to type
 	
 	//Bloaters have a 1/6000 chance every frame to freeze for a bit
 	if (m_Type == 0)
@@ -192,7 +192,7 @@ void Zombie::update(float elapsedTime,
 		}
 	}
 
-	// Update the zombie position variables
+	// Update the enemy position variables
 	if (playerX > m_Position.x)
 	{
 		m_Position.x = m_Position.x +

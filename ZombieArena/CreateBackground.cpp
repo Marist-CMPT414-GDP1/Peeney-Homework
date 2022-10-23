@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "ZombieArena.h"
+#include "MarioArena.h"
 
 int createBackground(VertexArray& rVA, IntRect arena)
 {

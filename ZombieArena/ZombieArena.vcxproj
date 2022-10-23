@@ -24,6 +24,7 @@
     <ProjectGuid>{12e16aae-d044-4b94-8d43-8d0033204eab}</ProjectGuid>
     <RootNamespace>ZombieArena</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MarioArena</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -139,16 +140,16 @@
     <ClCompile Include="Pickup.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="TextureHolder.cpp" />
-    <ClCompile Include="Zombie.cpp" />
-    <ClCompile Include="ZombieArena.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="MarioArena.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="TextureHolder.h" />
-    <ClInclude Include="Zombie.h" />
-    <ClInclude Include="ZombieArena.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="MarioArena.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
