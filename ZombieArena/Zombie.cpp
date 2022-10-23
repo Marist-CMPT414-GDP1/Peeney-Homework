@@ -23,7 +23,7 @@ void Zombie::spawn(float startX, float startY, int type, int seed)
 	case 1:
 		// Chaser
 		m_Sprite = Sprite(TextureHolder::GetTexture(
-			"graphics/chaser.png"));
+			"graphics/1_d.png"));
 
 		m_DefaultSpeed = 70;
 		m_Health = 1;
@@ -100,7 +100,7 @@ void Zombie::update(float elapsedTime,
 	//Bloaters have a 1/6000 chance every frame to freeze for a bit
 	if (m_Type == 0)
 	{
-		if (bloaterFreezeTime == 0)
+		if (m_bloaterFreezeTime == 0)
 		{
 			if (m_Speed <= 0)
 			{
@@ -109,7 +109,7 @@ void Zombie::update(float elapsedTime,
 			int r = (rand() % 6000);
 			if (r == 0)
 			{
-				bloaterFreezeTime = rand() % 600 + 420;
+				m_bloaterFreezeTime = rand() % 600 + 420;
 			}
 		}
 		else
@@ -118,14 +118,14 @@ void Zombie::update(float elapsedTime,
 			{
 				m_Speed = 0;
 			}
-			bloaterFreezeTime -= 1;
+			m_bloaterFreezeTime -= 1;
 		}
 	}
 
 	//Crawlers has a 1/9000 chance of dashing forward every frame	
 	if (m_Type == 2)
 	{
-		if (crawlerBoosting)
+		if (m_crawlerBoosting)
 		{
 			if (m_Speed < 140)
 			{
@@ -133,7 +133,7 @@ void Zombie::update(float elapsedTime,
 			}
 			else
 			{
-				crawlerBoosting = false;
+				m_crawlerBoosting = false;
 			}
 		}
 		else
@@ -143,7 +143,7 @@ void Zombie::update(float elapsedTime,
 				int r = (rand() % 9000);
 				if (r == 0)
 				{
-					crawlerBoosting = true;
+					m_crawlerBoosting = true;
 				}
 			}
 			else if (m_Speed < m_DefaultSpeed)
@@ -190,7 +190,34 @@ void Zombie::update(float elapsedTime,
 		playerX - m_Position.x)
 		* 180) / 3.141;
 
-	m_Sprite.setRotation(angle);
+	//Reset the stream for the filename
+	m_directionFacingStream.str("");
+	m_directionFacingStream.clear();
+	m_directionFacingStream << "graphics/" << m_Type;
+
+	//Determine which way the sprite should face
+	if (angle > -45 && angle <= 45)
+	{
+		m_directionFacingStream << "_r.png";
+	}
+	else if (angle > 45 && angle <= 135)
+	{
+		m_directionFacingStream << "_d.png";
+	}
+	else if (angle < -45 && angle >= -135)
+	{
+		m_directionFacingStream << "_u.png";
+	}
+	else
+	{
+		m_directionFacingStream << "_l.png";
+	}
+
+	if (m_Type == 1)
+	{
+		m_Sprite.setTexture(TextureHolder::GetTexture(
+			m_directionFacingStream.str()));
+	}
 
 
 }

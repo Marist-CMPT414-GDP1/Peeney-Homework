@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <sstream>
 
 using namespace sf;
 
@@ -40,8 +41,11 @@ private:
 	int m_Type;
 
 	//Behavior-specific variables
-	int bloaterFreezeTime = 0;
-	bool crawlerBoosting = false;
+	int m_bloaterFreezeTime = 0;
+	bool m_crawlerBoosting = false;
+
+	//Stringstream to calculate which texture should be used based on angle
+	std::stringstream m_directionFacingStream;
 
 	// Public prototypes go here	
 public:
