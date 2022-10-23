@@ -12,7 +12,7 @@ void Enemy::spawn(float startX, float startY, int type, int seed)
 	switch (m_Type)
 	{
 	case 0:
-		// Bloater
+		// Bowser
 		m_Sprite = Sprite(TextureHolder::GetTexture(
 			"graphics/0_r.png"));
 
@@ -21,7 +21,7 @@ void Enemy::spawn(float startX, float startY, int type, int seed)
 		break;
 
 	case 1:
-		// Chaser
+		// Goomba
 		m_Sprite = Sprite(TextureHolder::GetTexture(
 			"graphics/1_d.png"));
 
@@ -30,7 +30,7 @@ void Enemy::spawn(float startX, float startY, int type, int seed)
 		break;
 
 	case 2:
-		// Crawler
+		// Fishbones
 		m_Sprite = Sprite(TextureHolder::GetTexture(
 			"graphics/2_r.png"));
 
@@ -135,7 +135,7 @@ void Enemy::update(float elapsedTime,
 	//Bloaters have a 1/6000 chance every frame to freeze for a bit
 	if (m_Type == 0)
 	{
-		if (m_bloaterFreezeTime == 0)
+		if (m_bowserFreezeTime == 0)
 		{
 			if (m_Speed <= 0)
 			{
@@ -144,7 +144,7 @@ void Enemy::update(float elapsedTime,
 			int r = (rand() % 6000);
 			if (r == 0)
 			{
-				m_bloaterFreezeTime = rand() % 600 + 420;
+				m_bowserFreezeTime = rand() % 600 + 420;
 			}
 		}
 		else
@@ -153,14 +153,14 @@ void Enemy::update(float elapsedTime,
 			{
 				m_Speed = 0;
 			}
-			m_bloaterFreezeTime -= 1;
+			m_bowserFreezeTime -= 1;
 		}
 	}
 
 	//Crawlers has a 1/9000 chance of dashing forward every frame	
 	if (m_Type == 2)
 	{
-		if (m_crawlerBoosting)
+		if (m_fishBoosting)
 		{
 			if (m_Speed < 140)
 			{
@@ -168,7 +168,7 @@ void Enemy::update(float elapsedTime,
 			}
 			else
 			{
-				m_crawlerBoosting = false;
+				m_fishBoosting = false;
 			}
 		}
 		else
@@ -178,7 +178,7 @@ void Enemy::update(float elapsedTime,
 				int r = (rand() % 9000);
 				if (r == 0)
 				{
-					m_crawlerBoosting = true;
+					m_fishBoosting = true;
 				}
 			}
 			else if (m_Speed < m_DefaultSpeed)

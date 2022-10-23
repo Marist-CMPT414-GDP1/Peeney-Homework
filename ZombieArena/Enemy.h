@@ -8,14 +8,14 @@ class Enemy
 {
 private:
 	// How fast is each zombie type?
-	const float BLOATER_SPEED = 40;
-	const float CHASER_SPEED = 80;
-	const float CRAWLER_SPEED = 20;
+	const float BOWSER_SPEED = 40;
+	const float GOOMBA_SPEED = 80;
+	const float FISH_SPEED = 20;
 
 	// How tough is each zombie type
-	const float BLOATER_HEALTH = 5;
-	const float CHASER_HEALTH = 1;
-	const float CRAWLER_HEALTH = 3;
+	const float BOWSER_HEALTH = 5;
+	const float GOOMBA_HEALTH = 1;
+	const float FISH_HEALTH = 3;
 
 	// Make each zombie vary its speed slightly
 	const int MAX_VARRIANCE = 30;
@@ -41,8 +41,8 @@ private:
 	int m_Type;
 
 	//Behavior-specific variables
-	int m_bloaterFreezeTime = 0;
-	bool m_crawlerBoosting = false;
+	int m_bowserFreezeTime = 0;
+	bool m_fishBoosting = false;
 
 	//Stringstream to calculate which texture should be used based on angle
 	std::stringstream m_directionFacingStream;

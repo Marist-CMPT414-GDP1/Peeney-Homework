@@ -3,6 +3,9 @@
 
 int createBackground(VertexArray& rVA, IntRect arena)
 {
+	//Seed the pseudo-randomizer only once
+	srand((int)time(0));
+
 	// Anything we do to rVA we are actually doing to background (in the main function)
 
 	// How big is each tile/texture
@@ -45,7 +48,6 @@ int createBackground(VertexArray& rVA, IntRect arena)
 			else
 			{
 				// Use a random floor texture
-				srand((int)time(0) + h * w - h);
 				int mOrG = (rand() % TILE_TYPES);
 				int verticalOffset = mOrG * TILE_SIZE;
 
