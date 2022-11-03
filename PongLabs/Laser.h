@@ -33,8 +33,8 @@ public:
 
 	void reboundRight();
 
-	void reboundLeft();
+	void resetLaser(float startX, float startY);
 
-	void update(Time dt);
+	void update(Time dt, bool saberPowered);
 
 };

@@ -15,7 +15,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pong", "Pong\Pong.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PongLabs", "PongLabs\PongLabs.vcxproj", "{A27CA461-67B1-4991-A8F5-098A32F770B6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZombieArena", "ZombieArena\ZombieArena.vcxproj", "{12E16AAE-D044-4B94-8D43-8D0033204EAB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MarioArena", "ZombieArena\ZombieArena.vcxproj", "{12E16AAE-D044-4B94-8D43-8D0033204EAB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab6", "Lab6\Lab6.vcxproj", "{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TWL", "TWL\TWL.vcxproj", "{BE61AA8F-7261-4202-8285-F35D66063642}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +85,22 @@ Global
 		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Release|x64.Build.0 = Release|x64
 		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Release|x86.ActiveCfg = Release|Win32
 		{12E16AAE-D044-4B94-8D43-8D0033204EAB}.Release|x86.Build.0 = Release|Win32
+		{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}.Debug|x64.ActiveCfg = Debug|x64
+		{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}.Debug|x64.Build.0 = Debug|x64
+		{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}.Debug|x86.ActiveCfg = Debug|Win32
+		{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}.Debug|x86.Build.0 = Debug|Win32
+		{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}.Release|x64.ActiveCfg = Release|x64
+		{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}.Release|x64.Build.0 = Release|x64
+		{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}.Release|x86.ActiveCfg = Release|Win32
+		{DB140156-567E-4A97-9CD5-6CBDD2E1DDFD}.Release|x86.Build.0 = Release|Win32
+		{BE61AA8F-7261-4202-8285-F35D66063642}.Debug|x64.ActiveCfg = Debug|x64
+		{BE61AA8F-7261-4202-8285-F35D66063642}.Debug|x64.Build.0 = Debug|x64
+		{BE61AA8F-7261-4202-8285-F35D66063642}.Debug|x86.ActiveCfg = Debug|Win32
+		{BE61AA8F-7261-4202-8285-F35D66063642}.Debug|x86.Build.0 = Debug|Win32
+		{BE61AA8F-7261-4202-8285-F35D66063642}.Release|x64.ActiveCfg = Release|x64
+		{BE61AA8F-7261-4202-8285-F35D66063642}.Release|x64.Build.0 = Release|x64
+		{BE61AA8F-7261-4202-8285-F35D66063642}.Release|x86.ActiveCfg = Release|Win32
+		{BE61AA8F-7261-4202-8285-F35D66063642}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

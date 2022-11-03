@@ -14,7 +14,13 @@ private:
 
 	float speed = 1000;
 
+	bool poweredUp = false;
+
+	float powerTimer = 5;
+
 	Texture textureSaber;
+
+	Texture texturePoweredSaber;
 
 public:
 	//Constructor
@@ -30,6 +36,10 @@ public:
 	Sprite getSprite();
 
 	FloatRect getDimensions();
+
+	bool getPowerState();
+
+	void powerUp();
 
 	void move(movement movement);
 

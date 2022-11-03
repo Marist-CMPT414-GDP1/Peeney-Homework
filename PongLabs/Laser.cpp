@@ -9,6 +9,7 @@ Laser::Laser(float startX, float startY)
 
 	textureLaser.loadFromFile("graphics/laser.png");
 	spriteLaser.setTexture(textureLaser);
+	//spriteLaser.setPosition(position);
 }
 
 FloatRect Laser::getPosition()
@@ -45,27 +46,35 @@ void Laser::reboundRight()
 	std::cerr << "reboundRight()" << std::endl;
 }
 
-void Laser::reboundLeft()
+void Laser::resetLaser(float startX, float startY)
 {
-	position.x = 1720;
-	position.y = 1080 / 2;
+	position.x = startX;
+	position.y = startY;
 	speed = 2000.0f;
-	std::cerr << "reboundLeft() - respawned laser" << std::endl;
+	spriteLaser.setPosition(position);
+	std::cerr << "resetLaser() - respawned laser" << std::endl;
 }
 
-void Laser::update(Time dt)
+void Laser::update(Time dt, bool saberPowered)
 {
 	position.x += directionX * speed * dt.asSeconds();
 	position.y += directionY * speed * dt.asSeconds();
 	speed = speed - speed * 0.000015 * dt.asSeconds();
 	if (increaseSpeed)
 	{
-		speed = speed * 1.1;
+		if (saberPowered) 
+		{
+			speed = speed * 1.3;
+		}
+		else
+		{
+			speed = speed * 1.1;
+		}
 		increaseSpeed = false;
 	}
 	if (speed < 0.5)
 	{
-		reboundLeft();
+		resetLaser(1720, 1080 / 2);
 	}
 
 	spriteLaser.setPosition(position);

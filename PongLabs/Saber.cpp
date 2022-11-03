@@ -11,6 +11,7 @@ Saber::Saber(float startX, float startY)
 	initialPos.y = startY;
 
 	textureSaber.loadFromFile("graphics/lightsaber.png");
+	texturePoweredSaber.loadFromFile("graphics/lightsaber_powered.png");
 	spriteSaber.setTexture(textureSaber);
 }
 
@@ -24,6 +25,17 @@ FloatRect Saber::getDimensions()
 	return spriteSaber.getGlobalBounds();
 }
 
+bool Saber::getPowerState()
+{
+	return poweredUp;
+}
+
+void Saber::powerUp()
+{
+	poweredUp = true;
+	powerTimer = 5;
+}
+
 void Saber::move(movement movement)
 {
 	saberMovement = movement;
@@ -31,6 +43,23 @@ void Saber::move(movement movement)
 
 void Saber::update(Time dt)
 {
+	if (poweredUp)
+	{
+		spriteSaber.setTexture(texturePoweredSaber);
+		if (powerTimer > 0)
+		{
+			powerTimer -= dt.asSeconds();
+		}
+		else
+		{
+			poweredUp = false;
+		}
+	}
+	else
+	{
+		spriteSaber.setTexture(textureSaber);
+	}
+	
 	if (saberMovement == movement::LEFT && position.x >= initialPos.x) {
 		position.x -= speed * dt.asSeconds();
 	}
@@ -50,4 +79,5 @@ void Saber::update(Time dt)
 	}
 	
 	spriteSaber.setPosition(position);
+	
 }

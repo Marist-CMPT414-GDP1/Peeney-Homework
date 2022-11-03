@@ -8,10 +8,15 @@
 #include "Laser.h"
 #include <sstream>
 #include <cstdlib>
+#include <iostream>
 
 using namespace sf;
 
 enum class state {MENU, PLAY, GAMEOVER};
+enum class lastRebound {TOP, BOTTOM, RIGHT, SABER, NONE};
+
+const float LASER_START_X = 1720;
+const float LASER_START_Y = 1080 / 2;
 
 int main()
 {
@@ -26,12 +31,13 @@ int main()
 	bool allowScoring = false;
 
 	state state = state::MENU;
+	lastRebound lastRebound = lastRebound::NONE;
 
 	//Create a saber
 	Saber saber(20, 1080 / 4);
 
 	//Create the laser
-	Laser laser(1720, 1080 / 2);
+	Laser laser(LASER_START_X, LASER_START_Y);
 
 	Text hud;
 	Font font;
@@ -64,7 +70,9 @@ int main()
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
+			{
 				window.close();
+			}
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
@@ -74,7 +82,12 @@ int main()
 
 		if (Keyboard::isKeyPressed(Keyboard::Enter) && state != state::PLAY)
 		{
-			laser.reboundLeft();
+			laser.resetLaser(LASER_START_X, LASER_START_Y);
+			std::cerr << "Reset laser after pressing enter" << std::endl;
+			score = 0;
+			lives = 3;
+			lastRebound = lastRebound::NONE;
+			clock.restart();
 			state = state::PLAY;
 		}
 
@@ -112,14 +125,22 @@ int main()
 				saber.move(Saber::movement::NONE);
 			}
 
+			if (Keyboard::isKeyPressed(Keyboard::Space) && !saber.getPowerState())
+			{
+				saber.powerUp();
+			}
+		}
+
 			/*
 			========== UPDATE THE SABER, LASER, AND HUD ==========
 			*/
 
+		if (state == state::PLAY) {
+
 			//Update the delta time
 			Time dt = clock.restart();
 			saber.update(dt);
-			laser.update(dt);
+			laser.update(dt, saber.getPowerState());
 
 			std::stringstream ss;
 			ss << "Score:" << score << "   Lives:" << lives;
@@ -128,10 +149,13 @@ int main()
 			//Handle the ball hitting the left
 			if (laser.getPosition().left < 0)
 			{
-				laser.reboundLeft();
+				laser.resetLaser(LASER_START_X, LASER_START_Y);
+				std::cerr << "Reset laser because it touched the left edge" << std::endl;
+				lastRebound = lastRebound::NONE;
 				allowScoring = false;
 
 				lives--;
+				std::cerr << "Lost a life, lives = " << lives << std::endl;
 
 				if (lives < 1)
 				{
@@ -142,26 +166,38 @@ int main()
 			}
 
 			//Handle ball hitting the right
-			if (laser.getPosition().left + laser.getPosition().width > window.getSize().x)
+			if (laser.getPosition().left + laser.getPosition().width > window.getSize().x
+				&& lastRebound != lastRebound::RIGHT)
 			{
 				laser.reboundRight();
+				lastRebound = lastRebound::RIGHT;
 				if (allowScoring)
 				{
 					score++;
 				}
 			}
 
-			//Handle laser hitting edges
-			if (laser.getPosition().top < 0 ||
-				laser.getPosition().top + laser.getPosition().height > window.getSize().y)
+			//Handle laser hitting top
+			if (laser.getPosition().top < 0 && lastRebound != lastRebound::TOP)
 			{
 				laser.reboundEdges();
+				lastRebound = lastRebound::TOP;
+			}
+
+			//Handle laser hitting bottom
+			if (laser.getPosition().top + laser.getPosition().height > window.getSize().y
+				&& lastRebound != lastRebound::BOTTOM)
+			{
+				laser.reboundEdges();
+				lastRebound = lastRebound::BOTTOM;
 			}
 
 			//Has the laser hit the saber?
-			if (laser.getPosition().intersects(saber.getDimensions()))
+			if (laser.getPosition().intersects(saber.getDimensions())
+				&& lastRebound != lastRebound::SABER)
 			{
 				laser.reboundSaber();
+				lastRebound = lastRebound::SABER;
 				allowScoring = true;
 			}
 		}
@@ -179,10 +215,12 @@ int main()
 		*/
 
 		window.clear();
-		window.draw(hud);
-		window.draw(saber.getSprite());
-		window.draw(laser.getSprite());
-		if (state != state::PLAY)
+		if (state == state::PLAY) {
+			window.draw(hud);
+			window.draw(saber.getSprite());
+			window.draw(laser.getSprite());
+		}
+		else
 		{
 			window.draw(spriteScreen);
 			window.draw(screenText);
