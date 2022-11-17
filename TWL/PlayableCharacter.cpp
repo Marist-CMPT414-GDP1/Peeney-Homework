@@ -62,13 +62,13 @@ void PlayableCharacter::update(float elapsedTime)
 	m_Feet.left = r.left + 3;
 	m_Feet.top = r.top + r.height - 1;
 	m_Feet.width = r.width - 6;
-	m_Feet.height = 1;
+	m_Feet.height = 10;
 
 	// Head
 	m_Head.left = r.left;
 	m_Head.top = r.top + (r.height * .3);
 	m_Head.width = r.width;
-	m_Head.height = 1;
+	m_Head.height = 10;
 
 	// Right
 	m_Right.left = r.left + r.width - 2;
@@ -129,9 +129,12 @@ Sprite PlayableCharacter::getSprite()
 
 void PlayableCharacter::stopFalling(float position)
 {
-	m_Position.y = position - getPosition().height;
-	m_Sprite.setPosition(m_Position);
-	m_IsFalling = false;
+	if (m_IsFalling) 
+	{
+		m_Position.y = position - getPosition().height;
+		m_Sprite.setPosition(m_Position);
+		m_IsFalling = false;
+	}
 }
 
 void PlayableCharacter::stopRight(float position)
