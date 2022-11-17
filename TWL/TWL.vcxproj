@@ -163,6 +163,10 @@
     <ClInclude Include="TextureHolder.h" />
     <ClInclude Include="Thomas.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\rippleShader.frag" />
+    <None Include="shaders\vertShader.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
