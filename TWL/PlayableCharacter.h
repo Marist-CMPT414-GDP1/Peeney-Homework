@@ -21,6 +21,8 @@ protected:
 	bool m_IsJumping;
 	bool m_IsFalling;
 
+	bool m_IsRespawning = false;
+
 	// Which directions is the character currently moving in
 	bool m_LeftPressed;
 	bool m_RightPressed;
@@ -45,6 +47,7 @@ private:
 
 	// Where is the player
 	Vector2f m_Position;
+	Vector2f m_StartPosition;
 
 	// Where are the characters various body parts?
 	FloatRect m_Feet;

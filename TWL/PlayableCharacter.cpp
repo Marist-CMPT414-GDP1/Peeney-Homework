@@ -5,6 +5,8 @@ void PlayableCharacter::spawn(Vector2f startPosition, float gravity)
 	// Place the player at the starting point
 	m_Position.x = startPosition.x;
 	m_Position.y = startPosition.y;
+	m_StartPosition.x = startPosition.x;
+	m_StartPosition.y = startPosition.y;
 
 	// Initialize the gravity
 	m_Gravity = gravity;
@@ -16,6 +18,11 @@ void PlayableCharacter::spawn(Vector2f startPosition, float gravity)
 
 void PlayableCharacter::update(float elapsedTime)
 {
+	if (m_IsRespawning)
+	{
+		m_Position = m_StartPosition;
+		m_IsRespawning = false;
+	}
 
 	if (m_RightPressed)
 	{

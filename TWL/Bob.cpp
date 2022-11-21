@@ -51,12 +51,17 @@ bool Bob::handleInput()
 		|| (Keyboard::isKeyPressed(Keyboard::D) && m_Stacked))
 	{
 
-		m_RightPressed = true;;
+		m_RightPressed = true;
 
 	}
 	else
 	{
 		m_RightPressed = false;
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::RShift))
+	{
+		m_IsRespawning = true;
 	}
 
 	return m_JustJumped;

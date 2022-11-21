@@ -56,6 +56,11 @@ bool Thomas::handleInput()
 		m_RightPressed = false;
 	}
 
+	if (Keyboard::isKeyPressed(Keyboard::LShift))
+	{
+		m_IsRespawning = true;
+	}
+
 	return m_JustJumped;
 }
 
