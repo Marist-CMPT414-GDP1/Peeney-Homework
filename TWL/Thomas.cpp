@@ -17,12 +17,12 @@ bool Thomas::handleInput()
 {
 	m_JustJumped = false;
 
-	if (Keyboard::isKeyPressed(Keyboard::W))
+	if (Keyboard::isKeyPressed(Keyboard::W) && !m_Sticking)
 	{
 
 		// Start a jump if not already jumping
 		// but only if standing on a block (not falling)
-		if (!m_IsJumping && !m_IsFalling && !m_StickState)
+		if (!m_IsJumping && !m_IsFalling)
 		{
 			m_IsJumping = true;
 			m_TimeThisJump = 0;

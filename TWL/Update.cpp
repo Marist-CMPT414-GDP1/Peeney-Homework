@@ -43,20 +43,22 @@ void Engine::update(float dtAsSeconds)
 		if (m_Bob.getFeet().intersects(m_Thomas.getHead()))
 		{
 			m_Bob.stopFalling(m_Thomas.getHead().top);
+			m_Bob.unstick();
 		}
 		else if (m_Thomas.getFeet().intersects(m_Bob.getHead()))
 		{
 			m_Thomas.stopFalling(m_Bob.getHead().top);
+			m_Thomas.unstick();
 		}
 
 		// Count down the time the player has left
-		m_TimeRemaining -= dtAsSeconds;
+		//m_TimeRemaining -= dtAsSeconds;
 
 		// Have Thomas and Bob run out of time?
-		if (m_TimeRemaining <= 0)
-		{
-			m_NewLevelRequired = true;
-		}
+		//if (m_TimeRemaining <= 0)
+		//{
+		//	m_NewLevelRequired = true;
+		//}
 
 	}// End if playing
 

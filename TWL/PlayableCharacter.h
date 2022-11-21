@@ -30,7 +30,7 @@ protected:
 	bool m_JustJumped = false;
 
 	//Is the player touching sticky floor
-	bool m_StickState = false;
+	bool m_Sticking = false;
 
 	// Private variables and functions come next
 private:

@@ -16,12 +16,12 @@ bool Bob::handleInput()
 {
 	m_JustJumped = false;
 
-	if (Keyboard::isKeyPressed(Keyboard::Up))
+	if (Keyboard::isKeyPressed(Keyboard::Up) && !m_Sticking)
 	{
 
 		// Start a jump if not already jumping
 		// but only if standing on a block (not falling)
-		if (!m_IsJumping && !m_IsFalling && !m_StickState)
+		if (!m_IsJumping && !m_IsFalling)
 		{
 			m_IsJumping = true;
 			m_TimeThisJump = 0;

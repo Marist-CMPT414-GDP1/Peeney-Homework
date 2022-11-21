@@ -76,11 +76,6 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 			// Is character colliding with a regular block
 			if (m_ArrayLevel[y][x] == 1 || m_ArrayLevel[y][x] == 6)
 			{
-				if (m_ArrayLevel[y][x] == 6)
-				{
-					character.stick();
-				}
-
 				if (character.getRight().intersects(block))
 				{
 					character.stopRight(block.left);
@@ -125,7 +120,12 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 				reachedGoal = true;
 			}
 
-			if (m_ArrayLevel[y][x] != 6 && character.getFeet().intersects(block))
+			//Is the player touching sticky floor?
+			if (m_ArrayLevel[y][x] == 6 && character.getFeet().intersects(block))
+			{
+				character.stick();
+			}
+			else if (m_ArrayLevel[y][x] == 1 && character.getFeet().intersects(block))
 			{
 				character.unstick();
 			}

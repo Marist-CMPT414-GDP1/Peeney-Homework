@@ -102,7 +102,7 @@ void Engine::draw()
 	// Switch to m_HudView
 	m_Window.setView(m_HudView);
 	m_Window.draw(m_Hud.getLevel());
-	m_Window.draw(m_Hud.getTime());
+	//m_Window.draw(m_Hud.getTime());
 	if (!m_Playing)
 	{
 		m_Window.draw(m_Hud.getMessage());

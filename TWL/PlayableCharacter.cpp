@@ -164,12 +164,12 @@ void PlayableCharacter::stopJump()
 
 void PlayableCharacter::stick()
 {
-	m_StickState = true;
+	m_Sticking = true;
 }
 
 void PlayableCharacter::unstick()
 {
-	m_StickState = false;
+	m_Sticking = false;
 }
 
 
