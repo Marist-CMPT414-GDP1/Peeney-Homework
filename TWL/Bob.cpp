@@ -8,6 +8,8 @@ Bob::Bob()
 		"graphics/bob.png"));
 
 	m_JumpDuration = .25;
+
+	m_characterID = 1;
 }
 
 bool Bob::handleInput()
@@ -19,7 +21,7 @@ bool Bob::handleInput()
 
 		// Start a jump if not already jumping
 		// but only if standing on a block (not falling)
-		if (!m_IsJumping && !m_IsFalling)
+		if (!m_IsJumping && !m_IsFalling && !m_StickState)
 		{
 			m_IsJumping = true;
 			m_TimeThisJump = 0;

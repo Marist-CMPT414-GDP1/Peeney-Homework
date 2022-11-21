@@ -9,6 +9,9 @@ protected:
 	// Of course we will need a sprite
 	Sprite m_Sprite;
 
+	//Which character is it
+	int m_characterID;
+
 	// How long does a jump last
 	float m_JumpDuration;
 
@@ -26,8 +29,12 @@ protected:
 	// Has the player just initialted a jump
 	bool m_JustJumped = false;
 
+	//Is the player touching sticky floor
+	bool m_StickState = false;
+
 	// Private variables and functions come next
 private:
+	
 	// What is the gravity
 	float m_Gravity;
 
@@ -58,6 +65,9 @@ public:
 	// Where is the player
 	FloatRect getPosition();
 
+	//Which character is it
+	int getCharacterID();
+
 	// A rectangle representing the position of different parts of the sprite
 	FloatRect getFeet();
 	FloatRect getHead();
@@ -72,6 +82,10 @@ public:
 	void stopRight(float position);
 	void stopLeft(float position);
 	void stopJump();
+
+	//Change the stick state
+	void stick();
+	void unstick();
 
 	// Where is the center of the character
 	Vector2f getCenter();

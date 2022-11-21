@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <iostream>
 
 bool Engine::detectCollisions(PlayableCharacter& character)
 {
@@ -47,7 +48,11 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 
 			// Has character been burnt or drowned?
 			// Use head as this allows him to sink a bit
-			if (m_ArrayLevel[y][x] == 2 || m_ArrayLevel[y][x] == 3)
+			if ((m_ArrayLevel[y][x] == 2 && character.getCharacterID() == 1) //Only Bob can be burned
+				|| 
+				(m_ArrayLevel[y][x] == 3 && character.getCharacterID() == 0) //Only Thomas can drown
+				||
+				(m_ArrayLevel[y][x] == 5)) //Everyone dies to this tile
 			{
 				if (character.getHead().intersects(block))
 				{
@@ -69,8 +74,12 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 
 
 			// Is character colliding with a regular block
-			if (m_ArrayLevel[y][x] == 1)
+			if (m_ArrayLevel[y][x] == 1 || m_ArrayLevel[y][x] == 6)
 			{
+				if (m_ArrayLevel[y][x] == 6)
+				{
+					character.stick();
+				}
 
 				if (character.getRight().intersects(block))
 				{
@@ -114,6 +123,11 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 			{
 				// Character has reached the goal
 				reachedGoal = true;
+			}
+
+			if (m_ArrayLevel[y][x] != 6 && character.getFeet().intersects(block))
+			{
+				character.unstick();
 			}
 
 		}

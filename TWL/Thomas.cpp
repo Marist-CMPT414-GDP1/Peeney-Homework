@@ -8,6 +8,8 @@ Thomas::Thomas()
 		"graphics/thomas.png"));
 
 	m_JumpDuration = .45;
+
+	m_characterID = 0;
 }
 
 // A virtual function
@@ -20,7 +22,7 @@ bool Thomas::handleInput()
 
 		// Start a jump if not already jumping
 		// but only if standing on a block (not falling)
-		if (!m_IsJumping && !m_IsFalling)
+		if (!m_IsJumping && !m_IsFalling && !m_StickState)
 		{
 			m_IsJumping = true;
 			m_TimeThisJump = 0;

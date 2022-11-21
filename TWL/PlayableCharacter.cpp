@@ -87,6 +87,11 @@ void PlayableCharacter::update(float elapsedTime)
 
 }
 
+int PlayableCharacter::getCharacterID()
+{
+	return m_characterID;
+}
+
 FloatRect PlayableCharacter::getPosition()
 {
 	return m_Sprite.getGlobalBounds();
@@ -155,6 +160,16 @@ void PlayableCharacter::stopJump()
 	// Stop a jump early 
 	m_IsJumping = false;
 	m_IsFalling = true;
+}
+
+void PlayableCharacter::stick()
+{
+	m_StickState = true;
+}
+
+void PlayableCharacter::unstick()
+{
+	m_StickState = false;
 }
 
 

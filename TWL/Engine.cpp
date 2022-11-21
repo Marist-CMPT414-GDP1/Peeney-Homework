@@ -31,16 +31,16 @@ Engine::Engine()
 		FloatRect(0.5f, 0.001f, 0.499f, 0.998f));
 
 	// Can this graphics card use shaders?
-	if (!sf::Shader::isAvailable())
-	{
-		// Time to get a new PC
-		m_Window.close();
-	}
-	else
+	if (sf::Shader::isAvailable())
 	{
 		// Load two shaders (1 vertex, 1 fragment)
 		m_RippleShader.loadFromFile("shaders/vertShader.vert",
 			"shaders/rippleShader.frag");
+	}
+	else
+	{
+		// Time to get a new PC
+		m_Window.close();
 	}
 
 	m_BackgroundTexture = TextureHolder::GetTexture(
