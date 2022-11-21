@@ -55,7 +55,7 @@ void PlayableCharacter::update(float elapsedTime)
 	}
 
 	// Update the rect for all body parts
-	FloatRect r = getPosition();
+	FloatRect r = getRectangle();
 
 
 	// Feet
@@ -89,12 +89,17 @@ void PlayableCharacter::update(float elapsedTime)
 
 int PlayableCharacter::getCharacterID()
 {
-	return m_characterID;
+	return m_CharacterID;
 }
 
-FloatRect PlayableCharacter::getPosition()
+FloatRect PlayableCharacter::getRectangle()
 {
 	return m_Sprite.getGlobalBounds();
+}
+
+Vector2f PlayableCharacter::getPosition()
+{
+	return m_Position;
 }
 
 Vector2f PlayableCharacter::getCenter()
@@ -136,7 +141,7 @@ void PlayableCharacter::stopFalling(float position)
 {
 	if (m_IsFalling) 
 	{
-		m_Position.y = position - getPosition().height;
+		m_Position.y = position - getRectangle().height;
 		m_Sprite.setPosition(m_Position);
 		m_IsFalling = false;
 	}
@@ -172,5 +177,9 @@ void PlayableCharacter::unstick()
 	m_Sticking = false;
 }
 
+void PlayableCharacter::setStackState(bool stackState)
+{
+	m_Stacked = stackState;
+}
 
 

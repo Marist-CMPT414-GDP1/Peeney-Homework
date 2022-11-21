@@ -24,7 +24,7 @@ void Engine::update(float dtAsSeconds)
 		// Detect collisions and see if characters have reached the goal tile
 		// The second part of the if condition is only executed
 		// when thomas is touching the home tile
-		if (detectCollisions(m_Thomas) && detectCollisions(m_Bob))
+		if (detectCollisions(m_Thomas) && detectCollisions(m_Bob) || Keyboard::isKeyPressed(Keyboard::P))
 		{
 			// New level required
 			m_NewLevelRequired = true;
@@ -43,13 +43,25 @@ void Engine::update(float dtAsSeconds)
 		if (m_Bob.getFeet().intersects(m_Thomas.getHead()))
 		{
 			m_Bob.stopFalling(m_Thomas.getHead().top);
+			m_Bob.setStackState(true);
 			m_Bob.unstick();
 		}
 		else if (m_Thomas.getFeet().intersects(m_Bob.getHead()))
 		{
 			m_Thomas.stopFalling(m_Bob.getHead().top);
+			m_Thomas.setStackState(true);
 			m_Thomas.unstick();
 		}
+
+		if (!m_Bob.getFeet().intersects(m_Thomas.getHead()))
+		{
+			m_Bob.setStackState(false);
+		}
+		if (!m_Thomas.getFeet().intersects(m_Bob.getHead()))
+		{
+			m_Thomas.setStackState(false);
+		}
+
 
 		// Count down the time the player has left
 		//m_TimeRemaining -= dtAsSeconds;
@@ -78,7 +90,7 @@ void Engine::update(float dtAsSeconds)
 		FloatRect localRect(posX - 250, posY - 250, 500, 500);
 
 		// Is the player inside localRect?
-		if (m_Thomas.getPosition().intersects(localRect))
+		if (m_Thomas.getRectangle().intersects(localRect))
 		{
 			// Play the sound and pass in the location as well
 			m_SM.playFire(Vector2f(posX, posY), m_Thomas.getCenter());

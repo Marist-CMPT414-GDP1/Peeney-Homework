@@ -5,7 +5,7 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 {
 	bool reachedGoal = false;
 	// Make a rect for all his parts
-	FloatRect detectionZone = character.getPosition();
+	FloatRect detectionZone = character.getRectangle();
 
 	// Make a FloatRect to test each block
 	FloatRect block;
@@ -32,7 +32,7 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 
 	// Has the character fallen out of the map?
 	FloatRect level(0, 0, m_LM.getLevelSize().x * TILE_SIZE, m_LM.getLevelSize().y * TILE_SIZE);
-	if (!character.getPosition().intersects(level))
+	if (!character.getRectangle().intersects(level))
 	{
 		// respawn the character
 		character.spawn(m_LM.getStartPosition(), GRAVITY);
@@ -50,9 +50,7 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 			// Use head as this allows him to sink a bit
 			if ((m_ArrayLevel[y][x] == 2 && character.getCharacterID() == 1) //Only Bob can be burned
 				|| 
-				(m_ArrayLevel[y][x] == 3 && character.getCharacterID() == 0) //Only Thomas can drown
-				||
-				(m_ArrayLevel[y][x] == 5)) //Everyone dies to this tile
+				(m_ArrayLevel[y][x] == 3 && character.getCharacterID() == 0)) //Only Thomas can drown
 			{
 				if (character.getHead().intersects(block))
 				{
@@ -69,6 +67,18 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 						// Play a sound
 						m_SM.playFallInWater();
 					}
+				}
+			}
+
+			if (m_ArrayLevel[y][x] == 5)
+			{
+				if (character.getHead
+				
+				
+				().intersects(block)
+					|| character.getFeet().intersects(block))
+				{
+					character.spawn(m_LM.getStartPosition(), GRAVITY);
 				}
 			}
 
@@ -124,6 +134,7 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 			if (m_ArrayLevel[y][x] == 6 && character.getFeet().intersects(block))
 			{
 				character.stick();
+				m_SM.playSlime();
 			}
 			else if (m_ArrayLevel[y][x] == 1 && character.getFeet().intersects(block))
 			{

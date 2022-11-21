@@ -10,7 +10,9 @@ protected:
 	Sprite m_Sprite;
 
 	//Which character is it
-	int m_characterID;
+	int m_CharacterID;
+
+	bool m_Stacked = false;
 
 	// How long does a jump last
 	float m_JumpDuration;
@@ -63,7 +65,8 @@ public:
 	// This class is now abstract and cannot be instanciated
 
 	// Where is the player
-	FloatRect getPosition();
+	FloatRect getRectangle();
+	Vector2f getPosition();
 
 	//Which character is it
 	int getCharacterID();
@@ -86,6 +89,9 @@ public:
 	//Change the stick state
 	void stick();
 	void unstick();
+
+	//Change stacker
+	void setStackState(bool stackState);
 
 	// Where is the center of the character
 	Vector2f getCenter();

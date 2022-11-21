@@ -9,7 +9,7 @@ Bob::Bob()
 
 	m_JumpDuration = .25;
 
-	m_characterID = 1;
+	m_CharacterID = 1;
 }
 
 bool Bob::handleInput()
@@ -35,7 +35,8 @@ bool Bob::handleInput()
 		m_IsFalling = true;
 
 	}
-	if (Keyboard::isKeyPressed(Keyboard::Left))
+	if (Keyboard::isKeyPressed(Keyboard::Left)
+		|| (Keyboard::isKeyPressed(Keyboard::A) && m_Stacked))
 	{
 		m_LeftPressed = true;
 
@@ -46,7 +47,8 @@ bool Bob::handleInput()
 	}
 
 
-	if (Keyboard::isKeyPressed(Keyboard::Right))
+	if (Keyboard::isKeyPressed(Keyboard::Right)
+		|| (Keyboard::isKeyPressed(Keyboard::D) && m_Stacked))
 	{
 
 		m_RightPressed = true;;

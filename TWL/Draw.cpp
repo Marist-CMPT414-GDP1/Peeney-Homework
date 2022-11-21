@@ -3,6 +3,7 @@
 void Engine::draw()
 {
 	// Rub out the last frame
+
 	m_Window.clear(Color::White);
 	
 	// Update the shader parameters

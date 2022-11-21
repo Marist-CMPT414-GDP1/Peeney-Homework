@@ -9,7 +9,7 @@ Thomas::Thomas()
 
 	m_JumpDuration = .45;
 
-	m_characterID = 0;
+	m_CharacterID = 0;
 }
 
 // A virtual function
@@ -35,7 +35,8 @@ bool Thomas::handleInput()
 		m_IsFalling = true;
 
 	}
-	if (Keyboard::isKeyPressed(Keyboard::A))
+	if (Keyboard::isKeyPressed(Keyboard::A)
+		|| (Keyboard::isKeyPressed(Keyboard::Left) && m_Stacked))
 	{
 		m_LeftPressed = true;
 	}
@@ -45,7 +46,8 @@ bool Thomas::handleInput()
 	}
 
 
-	if (Keyboard::isKeyPressed(Keyboard::D))
+	if (Keyboard::isKeyPressed(Keyboard::D)
+		|| (Keyboard::isKeyPressed(Keyboard::Right) && m_Stacked))
 	{
 		m_RightPressed = true;
 	}
