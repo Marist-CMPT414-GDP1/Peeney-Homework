@@ -64,12 +64,12 @@ public:
 	bool virtual handleInput() = 0;
 	// This class is now abstract and cannot be instanciated
 
+	//Check if player is vulnerable to a block type
+	bool virtual checkVulnerability(int blockID) = 0;
+
 	// Where is the player
 	FloatRect getRectangle();
 	Vector2f getPosition();
-
-	//Which character is it
-	int getCharacterID();
 
 	// A rectangle representing the position of different parts of the sprite
 	FloatRect getFeet();

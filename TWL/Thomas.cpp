@@ -58,3 +58,15 @@ bool Thomas::handleInput()
 
 	return m_JustJumped;
 }
+
+bool Thomas::checkVulnerability(int blockID)
+{
+	if (blockID == 3)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

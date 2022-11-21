@@ -9,6 +9,7 @@ public:
 
 	// The overriden input handler for Bob
 	bool virtual handleInput();
+	bool virtual checkVulnerability(int blockID);
 
 };
 

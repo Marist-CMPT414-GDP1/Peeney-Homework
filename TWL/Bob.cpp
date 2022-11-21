@@ -61,3 +61,15 @@ bool Bob::handleInput()
 
 	return m_JustJumped;
 }
+
+bool Bob::checkVulnerability(int blockID)
+{
+	if (blockID == 2)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

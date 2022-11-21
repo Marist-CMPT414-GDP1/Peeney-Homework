@@ -87,11 +87,6 @@ void PlayableCharacter::update(float elapsedTime)
 
 }
 
-int PlayableCharacter::getCharacterID()
-{
-	return m_CharacterID;
-}
-
 FloatRect PlayableCharacter::getRectangle()
 {
 	return m_Sprite.getGlobalBounds();
@@ -181,5 +176,3 @@ void PlayableCharacter::setStackState(bool stackState)
 {
 	m_Stacked = stackState;
 }
-
-

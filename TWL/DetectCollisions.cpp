@@ -48,9 +48,9 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 
 			// Has character been burnt or drowned?
 			// Use head as this allows him to sink a bit
-			if ((m_ArrayLevel[y][x] == 2 && character.getCharacterID() == 1) //Only Bob can be burned
+			if ((m_ArrayLevel[y][x] == 2 && character.checkVulnerability(2)) //Only Bob can be burned
 				|| 
-				(m_ArrayLevel[y][x] == 3 && character.getCharacterID() == 0)) //Only Thomas can drown
+				(m_ArrayLevel[y][x] == 3 && character.checkVulnerability(3))) //Only Thomas can drown
 			{
 				if (character.getHead().intersects(block))
 				{
