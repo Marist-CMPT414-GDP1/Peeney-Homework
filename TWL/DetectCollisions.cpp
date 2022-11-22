@@ -83,8 +83,8 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 			}
 
 
-			// Is character colliding with a regular block
-			if (m_ArrayLevel[y][x] == 1 || m_ArrayLevel[y][x] == 6)
+			// Is character colliding with a solid block
+			if (m_ArrayLevel[y][x] == 1 || m_ArrayLevel[y][x] == 6 || m_ArrayLevel[y][x] == 7)
 			{
 				if (character.getRight().intersects(block))
 				{
@@ -136,7 +136,8 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 				character.stick();
 				m_SM.playSlime();
 			}
-			else if (m_ArrayLevel[y][x] == 1 && character.getFeet().intersects(block))
+			else if ((m_ArrayLevel[y][x] == 1 || m_ArrayLevel[y][x] == 7) 
+				&& character.getFeet().intersects(block))
 			{
 				character.unstick();
 			}
