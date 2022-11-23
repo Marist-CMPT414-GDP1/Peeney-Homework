@@ -55,18 +55,7 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 				if (character.getHead().intersects(block))
 				{
 					character.spawn(m_LM.getStartPosition(), GRAVITY);
-					// Which sound should be played?
-					if (m_ArrayLevel[y][x] == 2)// Fire, ouch!
-					{
-						// Play a sound
-						m_SM.playFallInFire();
-
-					}
-					else // Water
-					{
-						// Play a sound
-						m_SM.playFallInWater();
-					}
+					m_SM.playFallInFire();
 				}
 			}
 
@@ -79,6 +68,7 @@ bool Engine::detectCollisions(PlayableCharacter& character)
 					|| character.getFeet().intersects(block))
 				{
 					character.spawn(m_LM.getStartPosition(), GRAVITY);
+					m_SM.playFallInPurple();
 				}
 			}
 

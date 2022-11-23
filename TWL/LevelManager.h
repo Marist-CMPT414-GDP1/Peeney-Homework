@@ -13,7 +13,7 @@ private:
 	float m_TimeModifier = 1;
 	float m_BaseTimeLimit = 0;
 	int m_CurrentLevel = 0;
-	const int NUM_LEVELS = 6;
+	const int NUM_LEVELS = 7;
 
 public:
 

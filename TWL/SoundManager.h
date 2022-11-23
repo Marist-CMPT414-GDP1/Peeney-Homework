@@ -7,19 +7,15 @@ class SoundManager
 {
 private:
 	// The buffers
-	SoundBuffer m_FireBuffer;
 	SoundBuffer m_FallInFireBuffer;
-	SoundBuffer m_FallInWaterBuffer;
+	SoundBuffer m_FallInPurpleBuffer;
 	SoundBuffer m_JumpBuffer;
 	SoundBuffer m_ReachGoalBuffer;
 	SoundBuffer m_SlimeBuffer;
 
 	// The Sounds
-	Sound m_Fire1Sound;
-	Sound m_Fire2Sound;
-	Sound m_Fire3Sound;
 	Sound m_FallInFireSound;
-	Sound m_FallInWaterSound;
+	Sound m_FallInPurpleSound;
 	Sound m_JumpSound;
 	Sound m_ReachGoalSound;
 	Sound m_SlimeSound;
@@ -31,9 +27,8 @@ public:
 
 	SoundManager();
 
-	void playFire(Vector2f emitterLocation, Vector2f listenerLocation);
 	void playFallInFire();
-	void playFallInWater();
+	void playFallInPurple();
 	void playJump();
 	void playReachGoal();
 	void playSlime();

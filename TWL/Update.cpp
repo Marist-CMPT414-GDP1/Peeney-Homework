@@ -62,41 +62,19 @@ void Engine::update(float dtAsSeconds)
 			m_Thomas.setStackState(false);
 		}
 
-
+		/*
 		// Count down the time the player has left
-		//m_TimeRemaining -= dtAsSeconds;
+		m_TimeRemaining -= dtAsSeconds;
 
-		// Have Thomas and Bob run out of time?
-		//if (m_TimeRemaining <= 0)
-		//{
-		//	m_NewLevelRequired = true;
-		//}
+		//Have Thomas and Bob run out of time?
+		if (m_TimeRemaining <= 0)
+		{
+			m_NewLevelRequired = true;
+		}
+		*/
 
 	}// End if playing
 
-	// Check if a fire sound needs to be played
-	vector<Vector2f>::iterator it;
-
-	// Iterate through the vector of Vector2f objects
-	for (it = m_FireEmitters.begin(); it != m_FireEmitters.end(); it++)
-	{
-		// Where is this emitter?
-		// Store the location in pos
-		float posX = (*it).x;
-		float posY = (*it).y;
-
-		// is the emiter near the player?
-		// Make a 500 pixel rectangle around the emitter
-		FloatRect localRect(posX - 250, posY - 250, 500, 500);
-
-		// Is the player inside localRect?
-		if (m_Thomas.getRectangle().intersects(localRect))
-		{
-			// Play the sound and pass in the location as well
-			m_SM.playFire(Vector2f(posX, posY), m_Thomas.getCenter());
-		}
-	}
-		
 	// Set the appropriate view around the appropriate character
 	if (m_SplitScreen)
 	{

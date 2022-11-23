@@ -60,7 +60,14 @@ int** LevelManager::nextLevel(VertexArray& rVaLevel)
 		m_StartPosition.x = 200;
 		m_StartPosition.y = 800;
 		break;
+
+	case 7:
+		levelToLoad = "levels/level7.txt";
+		m_StartPosition.x = 450;
+		m_StartPosition.y = 550;
+		break;
 	}
+
 
 	ifstream inputFile(levelToLoad);
 	string s;
