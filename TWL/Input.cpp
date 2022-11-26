@@ -18,7 +18,11 @@ void Engine::input()
 			// Handle the player starting the game
 			if (Keyboard::isKeyPressed(Keyboard::Return))
 			{
-				m_Playing = true;
+				if (!m_Playing) 
+				{
+					m_Playing = true;
+					m_SM.playNarration(m_LM.getCurrentLevel());
+				}
 			}
 
 			// Switch between Thomas and Bob

@@ -9,6 +9,7 @@ void Engine::update(float dtAsSeconds)
 	if (m_NewLevelRequired)
 	{
 		// Load a level
+		m_SM.stopPreviousNarration(m_LM.getCurrentLevel());
 		loadLevel();
 		
 	}
