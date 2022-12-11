@@ -33,7 +33,11 @@ bool Saber::getPowerState()
 void Saber::powerUp()
 {
 	poweredUp = true;
-	powerTimer = 5;
+}
+
+void Saber::powerDown()
+{
+	poweredUp = false;
 }
 
 void Saber::move(movement movement)
@@ -46,14 +50,6 @@ void Saber::update(Time dt)
 	if (poweredUp)
 	{
 		spriteSaber.setTexture(texturePoweredSaber);
-		if (powerTimer > 0)
-		{
-			powerTimer -= dt.asSeconds();
-		}
-		else
-		{
-			poweredUp = false;
-		}
 	}
 	else
 	{

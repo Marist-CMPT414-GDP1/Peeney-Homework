@@ -64,7 +64,7 @@ void Laser::update(Time dt, bool saberPowered)
 	{
 		if (saberPowered) 
 		{
-			speed = speed * 1.3;
+			speed = speed * 1.33;
 		}
 		else
 		{

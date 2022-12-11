@@ -16,8 +16,6 @@ private:
 
 	bool poweredUp = false;
 
-	float powerTimer = 5;
-
 	Texture textureSaber;
 
 	Texture texturePoweredSaber;
@@ -40,6 +38,8 @@ public:
 	bool getPowerState();
 
 	void powerUp();
+
+	void powerDown();
 
 	void move(movement movement);
 

@@ -28,6 +28,7 @@ int main()
 
 	int score = 0;
 	int lives = 3;
+	float cooldown = 0;
 	bool allowScoring = false;
 
 	state state = state::MENU;
@@ -125,7 +126,7 @@ int main()
 				saber.move(Saber::movement::NONE);
 			}
 
-			if (Keyboard::isKeyPressed(Keyboard::Space) && !saber.getPowerState())
+			if (Keyboard::isKeyPressed(Keyboard::Space) && !saber.getPowerState() && cooldown == 0)
 			{
 				saber.powerUp();
 			}
@@ -142,8 +143,18 @@ int main()
 			saber.update(dt);
 			laser.update(dt, saber.getPowerState());
 
+			//Update power-up cooldown timer
+			if (cooldown > 0)
+			{
+				cooldown -= dt.asSeconds();
+			}
+			if (cooldown < 1)
+			{
+				cooldown = 0;
+			}
+
 			std::stringstream ss;
-			ss << "Score:" << score << "   Lives:" << lives;
+			ss << "Score:" << score << "   Lives:" << lives << "   Cooldown:" << (int)cooldown;
 			hud.setString(ss.str());
 
 			//Handle the ball hitting the left
@@ -162,6 +173,7 @@ int main()
 					state = state::GAMEOVER;
 					score = 0;
 					lives = 3;
+					cooldown = 0;
 				}
 			}
 
@@ -197,13 +209,18 @@ int main()
 				&& lastRebound != lastRebound::SABER)
 			{
 				laser.reboundSaber();
+				if (saber.getPowerState())
+				{
+					saber.powerDown();
+					cooldown = 11;
+				}
 				lastRebound = lastRebound::SABER;
 				allowScoring = true;
 			}
 		}
 		else if (state == state::MENU)
 		{
-			screenText.setString("Press Enter to start");
+			screenText.setString("Press Enter to start\n\nPressing the Spacebar powers up\nyour lightsaber for a stronger hit");
 		}
 		else
 		{
