@@ -23,6 +23,8 @@ public:
 		string bitmapName,
 		Vector2f objectSize) = 0;
 
+	virtual void changeColor(int R, int G, int B) = 0;
+
 	/****************************************************
 	*****************************************************
 	From Component interface

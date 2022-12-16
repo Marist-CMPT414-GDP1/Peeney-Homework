@@ -39,4 +39,6 @@ public:
 	void initializeGraphics(
 		string bitmapName,
 		Vector2f objectSize) override;
+
+	void changeColor(int R, int G, int B) override;
 };

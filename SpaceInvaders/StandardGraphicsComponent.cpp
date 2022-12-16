@@ -23,3 +23,8 @@ void StandardGraphicsComponent::draw(
 	m_Sprite.setPosition(t->getLocation());
 	window.draw(m_Sprite);
 }
+
+void StandardGraphicsComponent::changeColor(int R, int G, int B)
+{
+	m_Sprite.setColor(sf::Color(R, G, B));
+}
