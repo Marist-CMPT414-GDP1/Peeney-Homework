@@ -43,6 +43,9 @@ void GameObjectFactoryPlayMode::buildGameObject(
 			gameObject.addComponent(make_shared
 				<BulletUpdateComponent>());
 		}
+
+		//implement else if for barrier update
+
 		else if (*it == "Standard Graphics")
 		{
 			shared_ptr<StandardGraphicsComponent> sgp =

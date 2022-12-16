@@ -16,12 +16,14 @@ SoundEngine::SoundEngine()
 	m_ShootBuffer.loadFromFile("sound/shoot.ogg");
 	m_PlayerExplodeBuffer.loadFromFile("sound/playerexplode.ogg");
 	m_InvaderExplodeBuffer.loadFromFile("sound/invaderexplode.ogg");
+	m_BarrierHitBuffer.loadFromFile("sound/barrierhit.wav");
 	m_ClickBuffer.loadFromFile("sound/click.ogg");
 
 	// Associate the sounds with the buffers
 	m_ShootSound.setBuffer(m_ShootBuffer);
 	m_PlayerExplodeSound.setBuffer(m_PlayerExplodeBuffer);
 	m_InvaderExplodeSound.setBuffer(m_InvaderExplodeBuffer);
+	m_BarrierHitSound.setBuffer(m_BarrierHitBuffer);
 	m_ClickSound.setBuffer(m_ClickBuffer);
 }
 
@@ -38,6 +40,11 @@ void SoundEngine::playPlayerExplode()
 void SoundEngine::playInvaderExplode()
 {
 	m_s_Instance->m_InvaderExplodeSound.play();
+}
+
+void SoundEngine::playBarrierHit()
+{
+	m_s_Instance->m_BarrierHitSound.play();
 }
 
 void SoundEngine::playClick()

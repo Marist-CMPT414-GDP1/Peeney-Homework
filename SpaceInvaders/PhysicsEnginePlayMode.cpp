@@ -43,11 +43,11 @@ detectInvaderCollisions(
 					(*bulletIt).getTransformComponent()
 						->getLocation() = offScreen;
 					WorldState::SCORE++;
+					(*invaderIt).depleteHealth();
 
 					if ((*invaderIt).getHealth() >= 1)
 					{
-						//Invader loses one hp and gets darker to show damage
-						(*invaderIt).depleteHealth();
+						//Invader gets darker to show damage
 						(*invaderIt).getGraphicsComponent()
 							->changeColor(0,
 								255 / ((*invaderIt).getMaxHealth() / (*invaderIt).getHealth()),
@@ -73,7 +73,7 @@ detectBarrierCollisions(
 	vector<GameObject>& objects,
 	const vector<int>& bulletPositions)
 {
-	Vector2f offScreen(-1, -1);
+	Vector2f offScreen(-10, -10);
 
 	auto barrierIt = objects.begin();
 	auto barrierEnd = objects.end();
@@ -98,14 +98,15 @@ detectBarrierCollisions(
 						.getEncompassingRectCollider())
 					&& (*bulletIt).getTag() == "bullet")
 				{
-					SoundEngine::playInvaderExplode();
+					SoundEngine::playBarrierHit();
 					(*bulletIt).getTransformComponent()
 						->getLocation() = offScreen;
 
+					(*barrierIt).depleteHealth();
+
 					if ((*barrierIt).getHealth() >= 1)
 					{
-						//Barrier loses one hp and gets darker to show damage
-						(*barrierIt).depleteHealth();
+						//Barrier gets darker to show damage
 						(*barrierIt).getGraphicsComponent()
 							->changeColor(0,
 								255 / ((*barrierIt).getMaxHealth() / (*barrierIt).getHealth()),
@@ -270,7 +271,7 @@ void PhysicsEnginePlayMode::detectCollisions(
 	detectInvaderCollisions(objects, bulletPositions);
 	detectPlayerCollisionsAndInvaderDirection(
 		objects, bulletPositions);
-	//detectBarrierCollisions(objects, bulletPositions);
+	detectBarrierCollisions(objects, bulletPositions);
 
 	handleInvaderDirection();	
 }
