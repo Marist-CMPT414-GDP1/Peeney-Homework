@@ -39,18 +39,23 @@ detectInvaderCollisions(
 					(*bulletIt).getFirstUpdateComponent())
 					->m_BelongsToPlayer)
 				{
-					//Invader dies here, implement checking and depleting health
-
 					SoundEngine::playInvaderExplode();
 					(*invaderIt).depleteHealth();
 					(*bulletIt).getTransformComponent()
 						->getLocation() = offScreen;
 					WorldState::SCORE++;
 
-					if ((*invaderIt).getHealth() < 1)
+					if ((*invaderIt).getHealth() >= 1)
+					{
+						//Invader changes color
+						(*invaderIt).getGraphicsComponent()
+							->changeColor(0,
+								255 / ((*invaderIt).getMaxHealth() / (*invaderIt).getHealth()),
+								0);
+					}
+					else
 					{
 						//Invader dies
-						std::cerr << (*invaderIt).getHealth() << endl;
 						(*invaderIt).getTransformComponent()
 							->getLocation() = offScreen;
 

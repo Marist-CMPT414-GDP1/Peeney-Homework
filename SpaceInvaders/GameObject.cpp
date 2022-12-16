@@ -121,10 +121,16 @@ std::string GameObject::getTag()
 
 void GameObject::setHealth(int health)
 {
+	m_MaxHealth = health; 
 	m_Health = health;
 }
 
-int GameObject::getHealth()
+float GameObject::getMaxHealth()
+{
+	return m_MaxHealth;
+}
+
+float GameObject::getHealth()
 {
 	return m_Health;
 }

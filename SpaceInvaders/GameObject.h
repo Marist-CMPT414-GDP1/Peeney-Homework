@@ -12,7 +12,8 @@ private:
 	vector<shared_ptr<Component>> m_Components;
 
 	string m_Tag;
-	int m_Health;
+	float m_Health;
+	float m_MaxHealth;
 
 	bool m_Active = false;
 	int m_NumberUpdateComponents = 0;
@@ -39,7 +40,8 @@ public:
 	string getTag();
 
 	void setHealth(int health);
-	int getHealth();
+	float getMaxHealth();
+	float getHealth();
 	void depleteHealth();
 
 	void start(GameObjectSharer* gos);
