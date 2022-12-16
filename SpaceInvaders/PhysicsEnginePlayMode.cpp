@@ -20,7 +20,7 @@ detectInvaderCollisions(
 		++invaderIt)
 	{
 		if ((*invaderIt).isActive()
-			&& (*invaderIt).getTag() == "invader")
+			&& (*invaderIt).getTag() == "invader" || (*invaderIt).getTag() == "mystery")
 		{
 			auto bulletIt = objects.begin();
 			// Jump to the first bullet
@@ -40,14 +40,14 @@ detectInvaderCollisions(
 					->m_BelongsToPlayer)
 				{
 					SoundEngine::playInvaderExplode();
-					(*invaderIt).depleteHealth();
 					(*bulletIt).getTransformComponent()
 						->getLocation() = offScreen;
 					WorldState::SCORE++;
 
-					if ((*invaderIt).getHealth() >= 1)
+					if ((*invaderIt).getTag() == "mystery" && (*invaderIt).getHealth() >= 1)
 					{
-						//Invader changes color
+						//Invader loses one hp and gets darker to show damage
+						(*invaderIt).depleteHealth();
 						(*invaderIt).getGraphicsComponent()
 							->changeColor(0,
 								255 / ((*invaderIt).getMaxHealth() / (*invaderIt).getHealth()),
@@ -66,6 +66,14 @@ detectInvaderCollisions(
 			}
 		}
 	}
+}
+
+void PhysicsEnginePlayMode::
+detectBarrierCollisions(
+	vector<GameObject>& objects,
+	const vector<int>& bulletPositions)
+{
+
 }
 
 void PhysicsEnginePlayMode::
@@ -214,6 +222,7 @@ void PhysicsEnginePlayMode::detectCollisions(
 	detectInvaderCollisions(objects, bulletPositions);
 	detectPlayerCollisionsAndInvaderDirection(
 		objects, bulletPositions);
+	//detectBarrierCollisions(objects, bulletPositions);
 
 	handleInvaderDirection();	
 }
