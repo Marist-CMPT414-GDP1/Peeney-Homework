@@ -30,6 +30,17 @@ void BlueprintObjectParser::parseNextObjectForBlueprint(
 			bp.setName(value);
 		}
 
+		//Set health of GameObject
+
+		else if (lineFromFile.find(ObjectTags::HEALTH)
+			!= string::npos) {
+
+			value = extractStringBetweenTags(lineFromFile,
+				ObjectTags::HEALTH, ObjectTags::HEALTH_END);
+
+			bp.setHealth(stof(value));
+		}
+
 		else if (lineFromFile.find(ObjectTags::WIDTH)
 			!= string::npos) {
 

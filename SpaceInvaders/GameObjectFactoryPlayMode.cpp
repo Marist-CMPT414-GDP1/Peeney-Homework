@@ -13,6 +13,7 @@ void GameObjectFactoryPlayMode::buildGameObject(
 {
 	GameObject gameObject;
 	gameObject.setTag(bp.getName());
+	gameObject.setHealth(bp.getHealth());
 
 	auto it = bp.getComponentList().begin();
 	auto end = bp.getComponentList().end();

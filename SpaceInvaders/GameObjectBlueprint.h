@@ -11,6 +11,7 @@ private:
 	string m_Name = "";
 	vector<string> m_ComponentList;
 	string m_BitmapName = "";
+	int m_Health;
 	float m_Width;
 	float m_Height;
 	float m_LocationX;
@@ -30,6 +31,8 @@ public:
 	void setLocationY(float locationY);
 	void setName(string name);
 	string getName();
+	void setHealth(int health);
+	int getHealth();
 	vector<string>& getComponentList();
 	void addToComponentList(string newComponent);
 	string getBitmapName();

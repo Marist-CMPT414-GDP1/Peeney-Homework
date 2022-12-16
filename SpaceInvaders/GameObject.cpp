@@ -119,6 +119,21 @@ std::string GameObject::getTag()
 	return m_Tag;
 }
 
+void GameObject::setHealth(int health)
+{
+	m_Health = health;
+}
+
+int GameObject::getHealth()
+{
+	return m_Health;
+}
+
+void GameObject::depleteHealth()
+{
+	m_Health -= 1;
+}
+
 void GameObject::start(GameObjectSharer* gos)
 {
 	auto it = m_Components.begin();

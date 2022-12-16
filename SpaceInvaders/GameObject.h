@@ -12,6 +12,8 @@ private:
 	vector<shared_ptr<Component>> m_Components;
 
 	string m_Tag;
+	int m_Health;
+
 	bool m_Active = false;
 	int m_NumberUpdateComponents = 0;
 	bool m_HasUpdateComponent = false;
@@ -35,6 +37,10 @@ public:
 	bool isActive();
 	void setTag(String tag);
 	string getTag();
+
+	void setHealth(int health);
+	int getHealth();
+	void depleteHealth();
 
 	void start(GameObjectSharer* gos);
 

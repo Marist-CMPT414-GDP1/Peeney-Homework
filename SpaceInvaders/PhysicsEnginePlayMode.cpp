@@ -39,16 +39,24 @@ detectInvaderCollisions(
 					(*bulletIt).getFirstUpdateComponent())
 					->m_BelongsToPlayer)
 				{
-					SoundEngine::playInvaderExplode();
-					(*invaderIt).getTransformComponent()
-						->getLocation() = offScreen;
+					//Invader dies here, implement checking and depleting health
 
+					SoundEngine::playInvaderExplode();
+					(*invaderIt).depleteHealth();
 					(*bulletIt).getTransformComponent()
 						->getLocation() = offScreen;
-
 					WorldState::SCORE++;
-					WorldState::NUM_INVADERS--;
-					(*invaderIt).setInactive();
+
+					if ((*invaderIt).getHealth() < 1)
+					{
+						//Invader dies
+						std::cerr << (*invaderIt).getHealth() << endl;
+						(*invaderIt).getTransformComponent()
+							->getLocation() = offScreen;
+
+						WorldState::NUM_INVADERS--;
+						(*invaderIt).setInactive();
+					}
 				}
 			}
 		}

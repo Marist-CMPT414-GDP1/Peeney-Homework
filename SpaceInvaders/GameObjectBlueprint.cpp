@@ -43,6 +43,16 @@ string GameObjectBlueprint::getName()
 	return m_Name;
 }
 
+void GameObjectBlueprint::setHealth(int health)
+{
+	m_Health = health;
+}
+
+int GameObjectBlueprint::getHealth()
+{
+	return m_Health;
+}
+
 vector<string>& GameObjectBlueprint::getComponentList()
 {
 	return m_ComponentList;

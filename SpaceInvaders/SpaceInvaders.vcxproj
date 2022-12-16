@@ -135,7 +135,6 @@
   <ItemGroup>
     <ClCompile Include="BitmapStore.cpp" />
     <ClCompile Include="BlueprintObjectParser.cpp" />
-    <ClCompile Include="BulletSpawner.cpp" />
     <ClCompile Include="BulletUpdateComponent.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
@@ -166,7 +165,6 @@
     <ClCompile Include="SelectUIPanel.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="Space Invaders ++.cpp" />
-    <ClCompile Include="SpaceInvaders.cpp" />
     <ClCompile Include="StandardGraphicsComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UIPanel.cpp" />
@@ -212,6 +210,9 @@
     <ClInclude Include="UIPanel.h" />
     <ClInclude Include="UpdateComponent.h" />
     <ClInclude Include="WorldState.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="world\level1" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

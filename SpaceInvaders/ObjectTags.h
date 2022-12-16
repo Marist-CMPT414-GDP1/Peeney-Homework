@@ -11,6 +11,8 @@ public:
 	static const string COMPONENT_END;
 	static const string NAME;
 	static const string NAME_END;
+	static const string HEALTH;
+	static const string HEALTH_END;
 	static const string WIDTH;
 	static const string WIDTH_END;
 	static const string HEIGHT;
