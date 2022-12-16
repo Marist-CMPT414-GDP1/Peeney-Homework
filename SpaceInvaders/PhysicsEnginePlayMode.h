@@ -22,6 +22,9 @@ private:
 		vector<GameObject>& objects,
 		const vector<int>& bulletPositions);
 
+	void detectBarrierCollisions(vector<GameObject>& objects,
+		const vector<int>& bulletPositions);
+
 	void handleInvaderDirection();
 
 public:

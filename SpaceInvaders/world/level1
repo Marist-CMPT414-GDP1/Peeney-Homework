@@ -57,7 +57,7 @@
 [END OBJECT]
 
 [START OBJECT]
-[NAME]mystery[-NAME]
+[NAME]invader[-NAME]
 [HEALTH]3[-HEALTH]
 [COMPONENT]Standard Graphics[-COMPONENT]
 [COMPONENT]Invader Update[-COMPONENT]
