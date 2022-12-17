@@ -7,9 +7,12 @@ class Target
 {
 private:
 	RectangleShape m_Shape;
-	float m_Health = 10;
+	int m_Health = 10;
 
 public:
 	Target(Vector2f position);
 	RectangleShape getShape();
+	int getHealth();
+	FloatRect getPosition();
+	void takeDamage(int damage);
 };

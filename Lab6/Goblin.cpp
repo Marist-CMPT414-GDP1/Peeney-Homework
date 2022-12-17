@@ -13,6 +13,11 @@ void Goblin::spawn(Vector2f startPosition)
 
 }
 
+void Goblin::takeDamage(int damage)
+{
+	m_Health -= damage;
+}
+
 // A virtual function
 void Goblin::handleInput()
 {
@@ -56,7 +61,6 @@ void Goblin::handleInput()
 
 void Goblin::update(float elapsedTime)
 {
-
 	if (m_RightPressed)
 	{
 		m_Position.x += m_Speed * elapsedTime;
@@ -113,6 +117,21 @@ Vector2f Goblin::getCenter()
 Sprite Goblin::getSprite()
 {
 	return m_Sprite;
+}
+
+int Goblin::getHealth()
+{
+	return m_Health;
+}
+
+int Goblin::getDamageOutput()
+{
+	return m_DamageOutput;
+}
+
+int Goblin::getMitigation()
+{
+	return m_Mitigation;
 }
 
 void Goblin::stopRight(Vector2f position)

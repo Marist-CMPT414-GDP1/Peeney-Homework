@@ -86,6 +86,20 @@ void Engine::update(float dtAsSeconds)
 {
 	if (m_Playing)
 	{
+		if (currentGoblin->getPosition().intersects(hazard.getPosition()))
+		{
+			currentGoblin->takeDamage(hazard.getDamageOutput() - currentGoblin->getMitigation());
+		}
+		else if (currentGoblin->getPosition().intersects(target.getPosition()))
+		{
+			target.takeDamage(currentGoblin->getDamageOutput());
+		}
+		
+		if (currentGoblin->getHealth() < 1)
+		{
+			m_Window.close();
+		}
+
 		currentGoblin->update(dtAsSeconds);
 
 	}// End if playing
@@ -96,7 +110,10 @@ void Engine::draw()
 	// Rub out the last frame
 	m_Window.clear(Color::White);
 
-	m_Window.draw(target.getShape());
+	if (target.getHealth() > 0)
+	{
+		m_Window.draw(target.getShape());
+	}
 	m_Window.draw(hazard.getShape());
 	m_Window.draw(currentGoblin->getSprite());
 

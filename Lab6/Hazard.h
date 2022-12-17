@@ -7,9 +7,11 @@ class Hazard
 {
 private:
 	RectangleShape m_Shape;
-	float m_DamageOutput = 5;
+	int m_DamageOutput = 2;
 
 public:
 	Hazard(Vector2f position);
 	RectangleShape getShape();
+	int getDamageOutput();
+	FloatRect getPosition();
 };

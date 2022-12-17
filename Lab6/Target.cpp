@@ -11,3 +11,18 @@ RectangleShape Target::getShape()
 {
 	return m_Shape;
 }
+
+FloatRect Target::getPosition()
+{
+	return m_Shape.getGlobalBounds();
+}
+
+int Target::getHealth()
+{
+	return m_Health;
+}
+
+void Target::takeDamage(int damage)
+{
+	m_Health -= damage;
+}

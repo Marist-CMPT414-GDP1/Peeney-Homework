@@ -18,7 +18,7 @@ protected:
 	float m_Speed;
 	int m_Health;
 	int m_DamageOutput;
-	int m_mitigation;
+	int m_Mitigation;
 
 	Goblin();
 
@@ -33,6 +33,12 @@ public:
 
 	// Send a copy of the sprite to main
 	Sprite getSprite();
+
+	int getHealth();
+	int getDamageOutput();
+	int getMitigation();
+
+	void takeDamage(int damage);
 
 	// Make the character stand firm
 	void stopRight(Vector2f position);
