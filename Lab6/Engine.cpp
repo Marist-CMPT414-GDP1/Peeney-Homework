@@ -1,5 +1,5 @@
 #include "Engine.h"
-
+#include <iostream>
 
 Engine::Engine()
 {
@@ -22,9 +22,10 @@ void Engine::run()
 	Clock clock;
 
 	//Spawn all the goblins in a for loop going through the array
-	grunt.spawn({0, 0});
-	bruiser.spawn({0, 0});
-
+	for (int i = 0; i < NUM_GOBLINS; ++i)
+	{
+		goblinArray[i]->spawn({0,0});
+	}
 
 	while (m_Window.isOpen())
 	{
@@ -60,11 +61,11 @@ void Engine::input()
 			//Handle switching goblins
 			if (Keyboard::isKeyPressed(Keyboard::Num1))
 			{
-				currentGoblin = &grunt;
+				currentGoblin = goblinArray[0];
 			}
 			else if (Keyboard::isKeyPressed(Keyboard::Num2))
 			{
-				currentGoblin = &bruiser;
+				currentGoblin = goblinArray[1];
 			}
 			else if (Keyboard::isKeyPressed(Keyboard::Num3))
 			{
@@ -95,6 +96,8 @@ void Engine::draw()
 	// Rub out the last frame
 	m_Window.clear(Color::White);
 
+	m_Window.draw(target.getShape());
+	m_Window.draw(hazard.getShape());
 	m_Window.draw(currentGoblin->getSprite());
 
 	// Show everything we have just drawn

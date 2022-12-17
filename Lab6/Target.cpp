@@ -1,18 +1,13 @@
-#include <SFML/Graphics.hpp>
-using namespace sf;
+#include "Target.h"
 
-class Target
+Target::Target(Vector2f position)
 {
-private:
-	RectangleShape m_Shape;
-	float m_Health = 10;
-
-public:
-	Target();
-};
-
-Target::Target()
-{
-	m_Shape.setFillColor(Color::White);
+	m_Shape.setFillColor(Color::Green);
 	m_Shape.setSize({ 50, 50 });
+	m_Shape.setPosition(position);
+}
+
+RectangleShape Target::getShape()
+{
+	return m_Shape;
 }

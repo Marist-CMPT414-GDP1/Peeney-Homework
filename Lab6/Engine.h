@@ -3,6 +3,8 @@
 #include "Goblin.h"
 #include "GoblinGrunt.h"
 #include "GoblinBruiser.h"
+#include "Target.h"
+#include "Hazard.h"
 
 using namespace sf;
 
@@ -12,10 +14,14 @@ private:
 	// Declaration of the goblins
 	//Instantiate one of each kind of Goblin subclass, 
 	//and store pointers to these instances in an array.
-	GoblinGrunt grunt;
-	GoblinBruiser bruiser;
-	Goblin* currentGoblin = &grunt;
-	//Goblin goblins[4];
+	static const int NUM_GOBLINS = 2;
+	Goblin* grunt = new GoblinGrunt;
+	Goblin* bruiser = new GoblinBruiser;
+	Goblin* goblinArray[NUM_GOBLINS] = { grunt, bruiser };
+	Goblin* currentGoblin = goblinArray[0];
+
+	Target target = Target({ 100, 200 });
+	Hazard hazard = Hazard({ 400, 400 });
 
 	RenderWindow m_Window;
 	View m_View;

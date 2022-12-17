@@ -50,5 +50,11 @@
     <ClInclude Include="GoblinBruiser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Target.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hazard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
